@@ -9,19 +9,21 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
-        Schema::create('tiempos', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
-    }
+    public function up()
+{
+    Schema::create('categoria', function (Blueprint $table) {
+        $table->id();
+        $table->string('nombre_categoria', 45);
+        $table->timestamps();
+    });
+}
+
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('tiempos');
+        Schema::dropIfExists('categoria');
     }
 };

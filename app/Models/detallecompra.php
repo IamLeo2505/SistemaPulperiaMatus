@@ -9,7 +9,7 @@ class DetalleCompra extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['cantidad', 'precio', 'iva', 'descuento', 'subtotal', 'total', 'compra_id', 'producto_id'];
+    protected $fillable = ['cantidad', 'precio', 'iva', 'descuento', 'subtotal', 'total', 'compras_id', 'productos_id', 'unidad_medida_id', 'inventario_id', 'categoria_id', 'proveedor_id'];
 
     public function compra()
     {
@@ -19,6 +19,22 @@ class DetalleCompra extends Model
     public function producto()
     {
         return $this->belongsTo(Productos::class, 'producto_id');
+    }
+    public function proveedor()
+    {
+        return $this->belongsTo(Proveedor::class, 'unidad_medida_id');
+    }
+    public function unidad_medida()
+    {
+        return $this->belongsTo(UnidadMedida::class, 'proveeedor_id');
+    }
+    public function inventario()
+    {
+        return $this->belongsTo(Inventario::class, 'inventario_id');
+    }
+    public function categoria()
+    {
+        return $this->belongsTo(Categoria::class, 'categoria_id');
     }
 }
 

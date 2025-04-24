@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class tiempo extends Model
+class Inventario extends Model
 {
     use HasFactory;
-    
-    protected $fillable = ['fecha', 'año', 'mes', 'dia', 'diasemana', 
-    'trimestre', 'horario'];
+
+    protected $fillable = ['cantidadstock', 'stockminimo', 'fechavencimiento'];
+
 }

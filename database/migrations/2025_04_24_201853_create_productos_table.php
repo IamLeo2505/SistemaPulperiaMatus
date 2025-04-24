@@ -13,15 +13,13 @@ return new class extends Migration
 {
     Schema::create('productos', function (Blueprint $table) {
         $table->id();
-        $table->string('nombre', 45);
+        $table->string('image_path', 100);
         $table->string('descripcion', 255);
         $table->string('codigo_barras', 45);
-        $table->integer('stock');
         $table->string('marca', 45);
-        $table->foreignId('unidad_medida_id')->constrained('unidad_medidas');
-        $table->foreignId('categoria_id')->constrained('categorias');
-        $table->foreignId('proveedor_id')->constrained('proveedores');
-        $table->foreignId('precio_producto_id')->constrained('precio_productos');
+        $table->foreignId('unidad_medida_id')->constrained('unidad_medida');
+        $table->foreignId('categoria_id')->constrained('categoria');
+        $table->foreignId('proveedor_id')->constrained('proveedor');
         $table->timestamps();
     });
 }

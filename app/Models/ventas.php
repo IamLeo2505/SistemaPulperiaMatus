@@ -21,8 +21,8 @@ class Ventas extends Model
         return $this->belongsTo(Clientes::class, 'cliente_id');
     }
 
-    public function detallesVentas()
+    public function tiempo()
     {
-        return $this->hasMany(DetalleVentas::class, 'venta_id');
+        return $this->hasMany(Tiempo::class, 'tiempo_id');
     }
 }

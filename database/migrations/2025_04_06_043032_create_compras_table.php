@@ -18,9 +18,9 @@ return new class extends Migration
         $table->decimal('descuento', 10, 2);
         $table->decimal('iva', 10, 2);
         $table->decimal('total', 10, 2);
-        $table->foreignId('tiempo_id')->constrained('tiempos');
+        $table->foreignId('tiempo_id')->constrained('tiempo');
         $table->foreignId('empleado_id')->constrained('empleados');
-        $table->foreignId('proveedor_id')->constrained('proveedores');
+        $table->foreignId('proveedor_id')->constrained('proveedor');
         $table->timestamps();
     });
 }

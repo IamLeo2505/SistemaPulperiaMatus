@@ -9,10 +9,6 @@ class UnidadMedida extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nombre_unidad'];
+    protected $fillable = ['nombre_medida'];
 
-    public function productos()
-    {
-        return $this->hasMany(Productos::class, 'unidad_medida_id');
-    }
 }

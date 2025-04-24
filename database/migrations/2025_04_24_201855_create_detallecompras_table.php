@@ -21,6 +21,10 @@ return new class extends Migration
         $table->decimal('total', 10, 2);
         $table->foreignId('compra_id')->constrained('compras');
         $table->foreignId('producto_id')->constrained('productos');
+        $table->foreignId('unidad_medida_id')->constrained('unidad_medida');
+        $table->foreignId('categoria_id')->constrained('categoria');
+        $table->foreignId('inventario_id')->constrained('inventario');
+        $table->foreignId('proveedor_id')->constrained('proveedor');
         $table->timestamps();
     });
 }
