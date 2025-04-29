@@ -1,7 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import "tailwindcss";
 
-@plugin "daisyui";
-/* resources/css/app.css */
+/* Estilos especificos para el autofill del login */
+@import './override/autofill.css';

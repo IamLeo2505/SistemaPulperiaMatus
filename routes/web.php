@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
+// Página de bienvenida
+Route::view('/', 'welcome')->name('login');
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,29 +16,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome'); // Esta es la página de inicio por defecto
-});
-
-Route::view('/', 'welcome');
-
-
-
-// Rutas del sistema
-Route::get('/productos', [App\Http\Controllers\ProductosController::class, 'index'])->name('productos.index');
-Route::get('/clientes', [App\Http\Controllers\ClientesController::class, 'index'])->name('clientes.index');
-Route::get('/ventas', [App\Http\Controllers\VentasController::class, 'index'])->name('ventas.index');
-Route::get('/compras', [App\Http\Controllers\ComprasController::class, 'index'])->name('compras.index');
-Route::get('/usuarios', [App\Http\Controllers\UsuariosController::class, 'index'])->name('usuarios.index');
-Route::get('/categoria', [App\Http\Controllers\CategoriaController::class, 'index'])->name('categoria.index');
-Route::get('/detalleventas', [App\Http\Controllers\DetalleVentasController::class, 'index'])->name('detalleventas.index');
-Route::get('/detallecompras', [App\Http\Controllers\DetalleCompraController::class, 'index'])->name('detallecompras.index');
-Route::get('/proveedor', [App\Http\Controllers\ProveedorController::class, 'index'])->name('proveedor.index');
-Route::get('/inventario', [App\Http\Controllers\InventarioController::class, 'index'])->name('inventario.index');
-Route::get('/unidadmedida', [App\Http\Controllers\UnidadMedidaController::class, 'index'])->name('unidadmedida.index');
-Route::get('/tiempo', [App\Http\Controllers\TiempoController::class, 'index'])->name('tiempo.index');
-Route::get('/compras', [App\Http\Controllers\ComprasController::class, 'index'])->name('compras.index');
-Route::get('/precioproducto', [App\Http\Controllers\PrecioProductoController::class, 'index'])->name('precioproducto.index');
-
-
+// Agrupamos rutas por funcionalidad
+require __DIR__.'/login.php';
+require __DIR__.'/forgot-password.php';
+require __DIR__.'/dashboard.php';
+require __DIR__.'/ventas.php';
+require __DIR__.'/compras.php';
+require __DIR__.'/inventario.php';
+require __DIR__.'/clientes.php';
+require __DIR__.'/proveedores.php';
+require __DIR__.'/empleados.php';
+require __DIR__.'/usuarios.php';
+require __DIR__.'/mantenimiento.php';
+require __DIR__.'/reportes.php';
+require __DIR__.'/otros.php';
 
