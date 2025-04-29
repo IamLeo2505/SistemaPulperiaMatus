@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 // Página de bienvenida
-Route::view('/', 'welcome')->name('login');
+Route::view('/', 'index')->name('login');
 
 /*
 |--------------------------------------------------------------------------
