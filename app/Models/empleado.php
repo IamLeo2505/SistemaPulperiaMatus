@@ -9,10 +9,10 @@ class Empleado extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nombre', 'apellido', 'telefono', 'direccion'];
+    protected $fillable = ['nombreEmpleado', 'apellidoEmpleado', 'correoEmpleado', 'direccionEmpleado'];
 
     public function usuario()
     {
-        return $this->hasOne(Usuarios::class, 'empleado_id');
+        return $this->hasOne(Usuario::class, 'empleado_id');
     }
 }
