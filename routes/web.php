@@ -1,9 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Livewire\Login\Login;
 
 // Página de bienvenida
-Route::view('/', 'welcome')->name('login');
+// Página de inicio (login)
+Route::get('/', Login::class)->name('login.index');
+
 
 /*
 |--------------------------------------------------------------------------
@@ -16,9 +19,12 @@ Route::view('/', 'welcome')->name('login');
 |
 */
 
+
+
 // Agrupamos rutas por funcionalidad
 require __DIR__.'/login.php';
 require __DIR__.'/forgot-password.php';
+require __DIR__.'/recover-password.php';
 require __DIR__.'/dashboard.php';
 require __DIR__.'/ventas.php';
 require __DIR__.'/compras.php';
@@ -28,6 +34,8 @@ require __DIR__.'/proveedores.php';
 require __DIR__.'/empleados.php';
 require __DIR__.'/usuarios.php';
 require __DIR__.'/mantenimiento.php';
+require __DIR__.'/acercaDe.php';
+require __DIR__.'/soporte.php';
 require __DIR__.'/reportes.php';
 require __DIR__.'/otros.php';
 

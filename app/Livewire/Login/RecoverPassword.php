@@ -8,6 +8,7 @@ class RecoverPassword extends Component
 {
     public function render()
     {
-        return view('livewire.login.recover-password');
+        return view('livewire.login.recover-password')
+            ->layout('components.layouts.auth');
     }
 }

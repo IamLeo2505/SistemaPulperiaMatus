@@ -3,14 +3,28 @@
 namespace App\View\Components;
 
 use Illuminate\View\Component;
-use Illuminate\View\View;
 
 class AppLayout extends Component
 {
+    public $title;
+
     /**
-     * Get the view / contents that represents the component.
+     * Create the component instance.
+     *
+     * @param  string  $title
+     * @return void
      */
-    public function render(): View
+    public function __construct($title = null)
+    {
+        $this->title = $title;
+    }
+
+    /**
+     * Get the view / contents that represent the component.
+     *
+     * @return \Illuminate\Contracts\View\View|\Closure|string
+     */
+    public function render()
     {
         return view('layouts.app');
     }
