@@ -11,8 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tiempo', function (Blueprint $table) {
+        Schema::create('tiempos', function (Blueprint $table) {
             $table->id();
+            $table->date('fecha');
+            $table->year('año');
+            $table->integer('mes');
+            $table->integer('dia');
+            $table->integer('trimestre');
+            $table->time('horario');
             $table->timestamps();
         });
     }
@@ -22,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tiempo');
+        Schema::dropIfExists('tiempos');
     }
 };

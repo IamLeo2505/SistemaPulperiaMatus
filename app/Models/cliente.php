@@ -5,10 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UnidadMedida extends Model
+class Cliente extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nombre_medida'];
-
+    protected $fillable = ['nombreCliente', 'apellidoCliente', 'numeroCliente', 'edad', 'genero', 'estado'];
 }

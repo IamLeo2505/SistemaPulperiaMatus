@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Inventario extends Model
+class Unidad_Medida extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['cantidadstock', 'stockminimo', 'fechavencimiento'];
+    protected $fillable = ['nombre_unidad'];
 
 }

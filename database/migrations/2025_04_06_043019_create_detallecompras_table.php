@@ -14,9 +14,8 @@ return new class extends Migration
     Schema::create('detalle_compras', function (Blueprint $table) {
         $table->id();
         $table->integer('cantidad');
-        $table->decimal('precio', 10, 2);
-        $table->decimal('iva', 10, 2);
         $table->decimal('descuento', 10, 2);
+        $table->decimal('precio_compra', 10, 2);
         $table->decimal('subtotal', 10, 2);
         $table->decimal('total', 10, 2);
         $table->foreignId('compra_id')->constrained('compras');

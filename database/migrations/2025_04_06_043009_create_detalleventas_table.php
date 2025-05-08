@@ -15,7 +15,6 @@ return new class extends Migration
         $table->id();
         $table->integer('cantidad');
         $table->decimal('precio', 10, 2);
-        $table->decimal('iva', 10, 2);
         $table->decimal('descuento', 10, 2);
         $table->decimal('subtotal', 10, 2);
         $table->decimal('total', 10, 2);

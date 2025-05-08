@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('precio_producto', function (Blueprint $table) {
+        Schema::create('usuarios', function (Blueprint $table) {
             $table->id();
-            $table->decimal('preciocompra', 10, 2);
-            $table->decimal('precioventa', 10, 2);
-            $table->decimal('impuesto_iva', 10, 2);
-            $table->foreignId('producto_id')->constrained('productos')->onDelete('cascade');
+            $table->string('image_path_Usuarios', 255);
+            $table->string('user', 45)->unique();
+            $table->string('password', 255);
+            $table->foreignId('empleado_id')->constrained('empleados');
             $table->timestamps();
         });
     }
@@ -26,6 +26,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('precio_producto');
+        Schema::dropIfExists('usuarios');
     }
 };
+
+
