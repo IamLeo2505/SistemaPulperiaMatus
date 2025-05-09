@@ -1,8 +1,7 @@
-<aside x-data="{ open: true }"
-    class="flex flex-col bg-[#004173] text-white min-h-screen transition-all duration-300"
+<aside x-data="{ open: true, serviciosOpen: true, recursosHumanosOpen: true, mantenimientoOpen: true }"
+    class="flex flex-col bg-[#001951] text-white min-h-screen transition-all duration-300"
     :class="{ 'w-64': open, 'w-20': !open }">
 
-    <!-- Botón de Colapsar -->
     <div class="flex justify-between items-center p-4">
         <span class="text-xl font-bold" x-show="open">Menú Principal</span>
         <button @click="open = !open" class="focus:outline-none">
@@ -10,8 +9,7 @@
         </button>
     </div>
 
-    <!-- Navegación -->
-    <nav class="flex-1 space-y-1 px-2">
+    <nav class="flex-1 space-y-1 px-2 overflow-y-auto">
         @php
             $current = request()->routeIs('*') ? request()->route()->getName() : '';
 
@@ -40,28 +38,34 @@
             ];
         @endphp
 
-        <!-- Home -->
         @foreach ($home as $item)
             <a href="{{ $current !== $item['route'] ? route($item['route']) : '#' }}"
-               class="flex items-center gap-4 px-4 py-3 transition-all duration-150 hover:bg-[#0979b0]
-                      {{ $current === $item['route'] ? 'bg-[#0cb7f2] pointer-events-none' : '' }}">
+                class="flex items-center gap-4 px-4 py-3 transition-all duration-150 hover:bg-[#0979b0]
+                        {{ $current === $item['route'] ? 'bg-[#0cb7f2] pointer-events-none' : '' }}">
                 <x-dynamic-component :component="'heroicon-o-' . $item['icon']" class="w-5 h-5" />
                 <span x-show="open">{{ $item['label'] }}</span>
             </a>
         @endforeach
 
-        <!-- Secciones -->
         @foreach ($sections as $section => $items)
             <div class="mt-4">
-                <span x-show="open" class="text-sm text-gray-300 font-semibold uppercase tracking-wide px-4">{{ $section }}</span>
-                @foreach ($items as $item)
-                    <a href="{{ $current !== $item['route'] ? route($item['route']) : '#' }}"
-                       class="flex items-center gap-4 px-4 py-3 transition-all duration-150 hover:bg-[#0979b0]
-                              {{ $current === $item['route'] ? 'bg-[#0cb7f2] pointer-events-none' : '' }}">
-                        <x-dynamic-component :component="'heroicon-o-' . $item['icon']" class="w-5 h-5" />
-                        <span x-show="open">{{ $item['label'] }}</span>
-                    </a>
-                @endforeach
+                <div class="flex justify-between items-center px-4" x-show="open">
+                    <span class="text-sm text-gray-300 font-semibold uppercase tracking-wide">{{ $section }}</span>
+                    <button @click="{{ Str::camel($section) }}Open = !{{ Str::camel($section) }}Open" class="focus:outline-none">
+                        <x-heroicon-o-chevron-down class="w-4 h-4 text-gray-300" x-show="{{ Str::camel($section) }}Open" />
+                        <x-heroicon-o-chevron-right class="w-4 h-4 text-gray-300" x-show="!{{ Str::camel($section) }}Open" />
+                    </button>
+                </div>
+                <div x-show="{{ Str::camel($section) }}Open" class="space-y-1">
+                    @foreach ($items as $item)
+                        <a href="{{ $current !== $item['route'] ? route($item['route']) : '#' }}"
+                            class="flex items-center gap-4 px-4 py-3 transition-all duration-150 hover:bg-[#0979b0]
+                                    {{ $current === $item['route'] ? 'bg-[#0cb7f2] pointer-events-none' : '' }}">
+                            <x-dynamic-component :component="'heroicon-o-' . $item['icon']" class="w-5 h-5" />
+                            <span x-show="open">{{ $item['label'] }}</span>
+                        </a>
+                    @endforeach
+                </div>
             </div>
         @endforeach
     </nav>

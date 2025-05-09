@@ -3,10 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Login\Login;
 
-// Página de bienvenida
-// Página de inicio (login)
+//Página de inicio
 Route::get('/', Login::class)->name('login.index');
-
 
 /*
 |--------------------------------------------------------------------------
@@ -38,4 +36,3 @@ require __DIR__.'/acercaDe.php';
 require __DIR__.'/soporte.php';
 require __DIR__.'/reportes.php';
 require __DIR__.'/otros.php';
-
