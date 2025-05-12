@@ -15,7 +15,7 @@ return new class extends Migration
         $table->id();
         $table->string('nombreEmpleado', 50);
         $table->string('apellidoEmpleado', 50);
-        $table->string('correoEmpleado', 10);
+        $table->string('correoEmpleado', 100);
         $table->string('direccionEmpleado', 255);
         $table->timestamps();
     });
