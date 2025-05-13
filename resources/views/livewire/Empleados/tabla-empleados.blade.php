@@ -1,4 +1,4 @@
-<div>
+<div class="overflow-hidden rounded-xl shadow-lg mt-8 mb-8">
     @if ($empleados->isEmpty())
         <div class="flex flex-col items-center justify-center text-gray-500 p-10">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mb-4" fill="none" viewBox="0 0 24 24"
@@ -20,17 +20,17 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($empleados as $empleado)
-                    <tr class="text-gray-800">
+                @foreach ($empleados as $index => $empleado)
+                    <tr class="{{ $index % 2 === 0 ? 'bg-white' : 'bg-gray-200' }} text-gray-800">
                         <td>{{ $empleado->nombreEmpleado }}</td>
                         <td>{{ $empleado->apellidoEmpleado }}</td>
                         <td>{{ $empleado->correoEmpleado }}</td>
                         <td>{{ $empleado->direccionEmpleado }}</td>
                         <td class="px-4 py-2">
                             <div class="flex items-center gap-10">
-                                <button 
+                                <button
                                     wire:click="abrirModalEditar({{ $empleado->id }}, '{{ $empleado->nombreEmpleado }}', '{{ $empleado->apellidoEmpleado }}', '{{ $empleado->correoEmpleado }}', '{{ $empleado->direccionEmpleado }}')"
-                                    class="text-blue-600 hover:text-blue-800" 
+                                    class="text-blue-600 hover:text-blue-800"
                                     title="Editar">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="w-5 h-5 inline-block">
@@ -38,7 +38,6 @@
                                             d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                                     </svg>
                                 </button>
-
                                 <button wire:click="solicitarConfirmacion({{ $empleado->id }})" class="text-red-600 hover:text-red-800" title="Eliminar">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="w-5 h-5 inline-block">
@@ -54,7 +53,7 @@
         </table>
     @endif
 
-     <input type="checkbox" id="modal-editar" class="modal-toggle" {{ $mostrarModalEditar ? 'checked' : '' }} />
+    <input type="checkbox" id="modal-editar" class="modal-toggle" {{ $mostrarModalEditar ? 'checked' : '' }} />
     <div class="modal" role="dialog">
         <div class="modal-box text-black bg-[#ffffff]">
             <h3 class="font-bold text-lg ">Editar Empleado</h3>
@@ -87,7 +86,6 @@
         </div>
     </div>
 
-    <!-- Modal de confirmación -->
     <input type="checkbox" id="modal-confirmacion" class="modal-toggle" {{ $mostrarConfirmacion ? 'checked' : '' }} />
     <div class="modal" role="dialog">
         <div class="modal-box text-white bg-[#004173]">

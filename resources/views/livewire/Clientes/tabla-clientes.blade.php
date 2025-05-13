@@ -1,12 +1,12 @@
-<div class="overflow-hidden rounded-3xl shadow-lg mt-8 mb-8">
-    @if ($proveedores->isEmpty())
+<div class="overflow-hidden rounded-xl shadow-lg mt-8 mb-8">
+    @if ($clientes->isEmpty())
         <div class="flex flex-col items-center justify-center text-gray-500 p-10">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mb-4" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round"
                     d="M9.75 9.75h.008v.008H9.75V9.75zm0 4.5h.008v.008H9.75v-.008zm4.5-4.5h.008v.008H14.25V9.75zm0 4.5h.008v.008H14.25v-.008zM21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            <p class="text-lg font-semibold">No se encontraron proveedores con ese criterio.</p>
+            <p class="text-lg font-semibold">No se encontraron clientes con ese criterio.</p>
         </div>
     @else
         <table class="table w-full">
@@ -14,22 +14,26 @@
                 <tr>
                     <th>Nombre</th>
                     <th>Apellido</th>
-                    <th>Compañía</th>
-                    <th>Número Telefónico</th>
+                    <th>Número</th>
+                    <th>Edad</th>
+                    <th>Género</th>
+                    <th>Estado</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($proveedores as $index => $proveedor)
+                @foreach ($clientes as $index => $cliente)
                     <tr class="{{ $index % 2 === 0 ? 'bg-white' : 'bg-gray-200' }} text-gray-800">
-                        <td>{{ $proveedor->nombreProveedor }}</td>
-                        <td>{{ $proveedor->apellidoProveedor }}</td>
-                        <td>{{ $proveedor->compañía }}</td>
-                        <td>{{ $proveedor->numeroProveedor }}</td>
+                        <td>{{ $cliente->nombreCliente }}</td>
+                        <td>{{ $cliente->apellidoCliente }}</td>
+                        <td>{{ $cliente->numeroCliente }}</td>
+                        <td>{{ $cliente->edad }}</td>
+                        <td>{{ $cliente->genero ? 'Masculino' : 'Femenino' }}</td>
+                        <td>{{ $cliente->estado ? 'Activo' : 'Inactivo' }}</td>
                         <td class="px-4 py-2">
                             <div class="flex items-center gap-10">
                                 <button
-                                    wire:click="abrirModalEditar({{ $proveedor->id }}, '{{ $proveedor->nombreProveedor }}', '{{ $proveedor->apellidoProveedor }}', '{{ $proveedor->compañía }}', '{{ $proveedor->numeroProveedor }}')"
+                                    wire:click="abrirModalEditar({{ $cliente->id }})"
                                     class="text-blue-600 hover:text-blue-800"
                                     title="Editar">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -38,8 +42,7 @@
                                             d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                                     </svg>
                                 </button>
-
-                                <button wire:click="solicitarConfirmacion({{ $proveedor->id }})" class="text-red-600 hover:text-red-800" title="Eliminar">
+                                <button wire:click="solicitarConfirmacion({{ $cliente->id }})" class="text-red-600 hover:text-red-800" title="Eliminar">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="w-5 h-5 inline-block">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -54,30 +57,46 @@
         </table>
     @endif
 
-     <input type="checkbox" id="modal-editar" class="modal-toggle" {{ $mostrarModalEditar ? 'checked' : '' }} />
+    <input type="checkbox" id="modal-editar" class="modal-toggle" {{ $mostrarModalEditar ? 'checked' : '' }} />
     <div class="modal" role="dialog">
         <div class="modal-box text-black bg-[#ffffff]">
-            <h3 class="font-bold text-lg ">Editar Proveedor</h3>
-            <form wire:submit.prevent="guardarProveedor">
+            <h3 class="font-bold text-lg ">Editar Cliente</h3>
+            <form wire:submit.prevent="guardarCliente">
                 <div class="mb-4">
-                    <label for="nombreProveedor" class="block text-sm font-medium text-gray-700">Nombre</label>
-                    <input wire:model="nombreProveedor" type="text" id="nombreProveedor" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
-                    @error('nombreProveedor') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                    <label for="nombreCliente" class="block text-sm font-medium text-gray-700">Nombre</label>
+                    <input wire:model="nombreCliente" type="text" id="nombreCliente" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+                    @error('nombreCliente') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                 </div>
                 <div class="mb-4">
-                    <label for="apellido" class="block text-sm font-medium text-gray-700">Apellido</label>
-                    <input wire:model="apellidoProveedor" type="text" id="apellido" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
-                    @error('apellidoProveedor') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                    <label for="apellidoCliente" class="block text-sm font-medium text-gray-700">Apellido</label>
+                    <input wire:model="apellidoCliente" type="text" id="apellidoCliente" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+                    @error('apellidoCliente') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                 </div>
                 <div class="mb-4">
-                    <label for="compañía" class="block text-sm font-medium text-gray-700">Compañía</label>
-                    <input wire:model="compañía" type="text" id="compañía" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
-                    @error('compañía') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                    <label for="numeroCliente" class="block text-sm font-medium text-gray-700">Número</label>
+                    <input wire:model="numeroCliente" type="number" id="numeroCliente" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+                    @error('numeroCliente') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                 </div>
                 <div class="mb-4">
-                    <label for="numeroProveedor" class="block text-sm font-medium text-gray-700">Número Telefónico</label>
-                    <input wire:model="numeroProveedor" type="text" id="numeroProveedor" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
-                    @error('numeroProveedor') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                    <label for="edad" class="block text-sm font-medium text-gray-700">Edad</label>
+                    <input wire:model="edad" type="number" id="edad" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+                    @error('edad') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                </div>
+                <div class="mb-4">
+                    <label for="genero" class="block text-sm font-medium text-gray-700">Género</label>
+                    <select wire:model="genero" id="genero" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+                        <option value="1">Masculino</option>
+                        <option value="0">Femenino</option>
+                    </select>
+                    @error('genero') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                </div>
+                <div class="mb-4">
+                    <label for="estado" class="block text-sm font-medium text-gray-700">Estado</label>
+                    <select wire:model="estado" id="estado" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+                        <option value="1">Activo</option>
+                        <option value="0">Inactivo</option>
+                    </select>
+                    @error('estado') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                 </div>
                 <div class="flex justify-end">
                     <button type="button" wire:click="cerrarModalEditar" class="bg-gray-500 text-white px-4 py-2 rounded-md mr-2">Cancelar</button>
@@ -90,11 +109,11 @@
     <input type="checkbox" id="modal-confirmacion" class="modal-toggle" {{ $mostrarConfirmacion ? 'checked' : '' }} />
     <div class="modal" role="dialog">
         <div class="modal-box text-white bg-[#004173]">
-            <h3 class="font-bold text-lg">¿Seguro que deseas eliminar este proveedor?</h3>
+            <h3 class="font-bold text-lg">¿Seguro que deseas eliminar este cliente?</h3>
             <p class="py-4">Esta acción no se puede deshacer.</p>
             <div class="modal-action">
                 <button wire:click="cancelarEliminacion" class="btn bg-gray-500 hover:bg-gray-600">Cancelar</button>
-                <button wire:click="eliminarProveedor" class="btn btn-error text-white bg-red-600">Eliminar</button>
+                <button wire:click="eliminarCliente" class="btn btn-error text-white bg-red-600">Eliminar</button>
             </div>
         </div>
     </div>

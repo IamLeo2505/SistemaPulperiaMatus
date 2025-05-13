@@ -1,21 +1,20 @@
-<div class="p-4">
+<div class="p-4 relative"> {{-- El contenedor padre con position: relative --}}
     <h1 class="text-black font-bold mb-4">Gestión de Proveedores</h1>
 
     @if (session()->has('mensaje'))
         <div class="blue-200 p-2 rounded mb-4">{{ session('mensaje') }}</div>
-    @endif    
+    @endif
 
-    <div> <!-- Div raíz para agrupar todo -->
+    <div>
         <livewire:proveedores.barra-busqueda-proveedores />
 
         <livewire:proveedores.tabla-proveedores />
 
-        <button wire:click="abrirModal" class="bg-blue-600 text-white px-4 py-2 rounded mb-4">
+        <button wire:click="abrirModal" class="fixed right-10 bottom-18 bg-blue-600 text-white px-4 py-2 rounded-2xl z-10">
             Agregar proveedor
         </button>
     </div>
 
-    <!-- Modal -->
     @if ($modalAbierto)
     <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
         <div class="bg-white w-full max-w-md p-6 rounded shadow-lg">
