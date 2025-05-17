@@ -34,15 +34,23 @@ class TablaUsuarios extends Component
 
     public function render()
     {
-        $usuarios = Usuario::query()
-            ->where($this->searchField, 'like', '%' . $this->searchTerm . '%')
-            ->get();
+        $query = Usuario::query();
+
+        if ($this->searchTerm) {
+            if ($this->searchField === 'correoEmpleado') {
+                $query->join('empleados', 'usuarios.empleado_id', '=', 'empleados.id')
+                      ->where('empleados.correoEmpleado', 'like', '%' . $this->searchTerm . '%')
+                      ->select('usuarios.*');
+            } else {
+                $query->where($this->searchField, 'like', '%' . $this->searchTerm . '%');
+            }
+        }
 
         return view('livewire.usuarios.tabla-usuarios', [
-            'usuarios' => $usuarios,
+            'usuarios' => $query->get(),
             'empleados' => Empleado::all(),
         ]);
-    }   
+    }
 
     public function abrirModalEditar($id)
     {
@@ -98,7 +106,6 @@ class TablaUsuarios extends Component
         $usuario = Usuario::find($this->idUsuarioEditar);
         $empleado = Empleado::where('correoEmpleado', $this->correoEmpleado)->firstOrFail();
 
-        // Depuración: Loguear el nombre del archivo subido
         if ($this->image_path_Usuarios) {
             Log::debug('Imagen subida en guardarUsuario (TablaUsuarios): ' . $this->image_path_Usuarios->getClientOriginalName());
         }

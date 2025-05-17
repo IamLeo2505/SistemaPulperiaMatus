@@ -38,8 +38,20 @@ class Usuarios extends Component
 
     public function render()
     {
+        $query = Usuario::query();
+
+        if ($this->termino) {
+            if ($this->filtro === 'correoEmpleado') {
+                $query->join('empleados', 'usuarios.empleado_id', '=', 'empleados.id')
+                      ->where('empleados.correoEmpleado', 'like', '%' . $this->termino . '%')
+                      ->select('usuarios.*');
+            } else {
+                $query->where($this->filtro, 'like', '%' . $this->termino . '%');
+            }
+        }
+
         return view('livewire.usuarios.usuarios', [
-            'usuarios' => Usuario::where($this->filtro, 'like', '%' . $this->termino . '%')->get(),
+            'usuarios' => $query->get(),
             'empleados' => Empleado::all(),
         ]);
     }
@@ -76,7 +88,6 @@ class Usuarios extends Component
 
         $empleado = Empleado::where('correoEmpleado', $this->correoEmpleado)->firstOrFail();
 
-        // Depuración: Loguear el nombre del archivo subido
         if ($this->image_path_Usuarios) {
             Log::debug('Imagen subida en guardarUsuario: ' . $this->image_path_Usuarios->getClientOriginalName());
         }
@@ -128,7 +139,6 @@ class Usuarios extends Component
 
             $empleado = Empleado::where('correoEmpleado', $this->correoEmpleado)->firstOrFail();
 
-            // Depuración: Loguear el nombre del archivo subido
             if ($this->image_path_Usuarios) {
                 Log::debug('Imagen subida en actualizarUsuario: ' . $this->image_path_Usuarios->getClientOriginalName());
             }
