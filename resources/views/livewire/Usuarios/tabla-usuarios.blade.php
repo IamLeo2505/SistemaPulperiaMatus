@@ -15,6 +15,7 @@
                     <th>Nombre Usuario</th>
                     <th>Contraseña</th>
                     <th>Foto de Perfil</th>
+                    <th>Correo Electrónico</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -22,7 +23,7 @@
                 @foreach ($usuarios as $index => $usuario)
                     <tr class="{{ $index % 2 === 0 ? 'bg-white' : 'bg-gray-200' }} text-gray-800">
                         <td>{{ $usuario->user }}</td>
-                        <td>{{ $usuario->password }}</td>
+                        <td>********</td>
                         <td class="px-10 py-2">
                             <div class="flex items-align-center gap-10">
                             @if ($usuario->image_path_Usuarios)
@@ -39,10 +40,11 @@
                             @endif
                             </div>
                         </td>
+                        <td>{{ $usuario->empleado ? $usuario->empleado->correoEmpleado : 'No asignado' }}</td>
                         <td class="px-4 py-2">
                             <div class="flex items-center gap-10">
                                 <button 
-                                    wire:click="abrirModalEditar({{ $usuario->id }}, '{{ $usuario->user }}', '{{ $usuario->password }}', '{{ $usuario->image_path_Usuarios }}')"
+                                    wire:click="abrirModalEditar({{ $usuario->id }})"
                                     class="text-blue-600 hover:text-blue-800" 
                                     title="Editar">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -58,7 +60,6 @@
                                             d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
                                     </svg>
                                 </button>
-                                
                             </div>
                         </td>
                     </tr>
@@ -84,8 +85,21 @@
                     @error('password') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                 </div>
                 <div class="mb-4">
-                    <label for="image_path_Usuarios" class="block text-sm font-medium text-gray-700">Foto de perfil</label>
-                    <input wire:model="image_path_Usuarios" type="file" id="image_path_Usuarios" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+                    <label for="correoEmpleado" class="block text-sm font-medium text-gray-700">Correo Electrónico</label>
+                    <select wire:model="correoEmpleado" id="correoEmpleado" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+                        <option value="">Seleccione un empleado</option>
+                        @foreach ($empleados as $empleado)
+                            <option value="{{ $empleado->correoEmpleado }}">{{ $empleado->correoEmpleado }}</option>
+                        @endforeach
+                    </select>
+                    @error('correoEmpleado') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                </div>
+                <div class="mb-4">
+                    <label for="image_path_Usuarios" class="block text-sm font-medium text-gray-700">Foto de Perfil</label>
+                    <input wire:model.live="image_path_Usuarios" type="file" id="image_path_Usuarios" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+                    @if ($image_path_Usuarios)
+                        <button type="button" wire:click="limpiarImagen" class="bg-red-500 text-white px-4 py-2 rounded">Eliminar imagen seleccionada</button>
+                    @endif
                     @error('image_path_Usuarios') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                 </div>
                 <div class="flex justify-end">
@@ -102,7 +116,7 @@
         <div class="modal-box text-black bg-[#ffffff] max-w-2xl">
             <h3 class="font-bold text-lg">Foto de Perfil</h3>
             @if ($image_path_Usuarios)
-                <img src="{{ asset('storage/' . $image_path_Usuarios) }}" alt="Foto de perfil" class="w-full h-auto rounded-md mt-4">
+                <img src="{{ asset('storage/' . $image_path_Usuarios) . '?t=' . time() }}" alt="Foto de perfil" class="w-full h-auto rounded-md mt-4">
             @else
                 <p class="text-gray-500 italic">No hay imagen disponible.</p>
             @endif

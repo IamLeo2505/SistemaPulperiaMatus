@@ -8,12 +8,13 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Empleado;
 use App\Models\Usuario;
+use Illuminate\Support\Facades\Log;
 
 class Usuarios extends Component
 {
     use WithFileUploads;
 
-    public $user, $password, $empleado_id, $image_path_Usuarios, $usuario_id;
+    public $user, $password, $correoEmpleado, $empleado_id, $image_path_Usuarios, $usuario_id;
     public $usuariosFiltrados = [];
     public $mostrarConfirmacion = false;
     public $usuarioAEliminar = null;
@@ -21,11 +22,12 @@ class Usuarios extends Component
     public $filtro = 'user';
     public $modalAbierto = false;
     public $modoEdicion = false;
+    public bool $showPassword = false;
 
     protected $rules = [
         'user' => 'required|string|max:45|unique:usuarios,user',
         'password' => 'required|string|min:6',
-        'empleado_id' => 'required|exists:empleados,id',
+        'correoEmpleado' => 'required|exists:empleados,correoEmpleado',
         'image_path_Usuarios' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
     ];
 
@@ -57,14 +59,27 @@ class Usuarios extends Component
 
     public function resetCampos()
     {
-        $this->reset(['user', 'password', 'image_path_Usuarios', 'usuario_id']);
+        $this->reset(['user', 'password', 'correoEmpleado', 'image_path_Usuarios', 'usuario_id']);
         $this->modoEdicion = false;
         $this->resetErrorBag();
+    }
+
+    public function limpiarImagen()
+    {
+        $this->image_path_Usuarios = null;
+        $this->resetErrorBag('image_path_Usuarios');
     }
 
     public function guardarUsuario()
     {
         $this->validate();
+
+        $empleado = Empleado::where('correoEmpleado', $this->correoEmpleado)->firstOrFail();
+
+        // Depuración: Loguear el nombre del archivo subido
+        if ($this->image_path_Usuarios) {
+            Log::debug('Imagen subida en guardarUsuario: ' . $this->image_path_Usuarios->getClientOriginalName());
+        }
 
         $rutaImagen = null;
         if ($this->image_path_Usuarios) {
@@ -76,7 +91,7 @@ class Usuarios extends Component
         Usuario::create([
             'user' => $this->user,
             'password' => Hash::make($this->password),
-            'empleado_id' => $this->empleado_id,
+            'empleado_id' => $empleado->id,
             'image_path_Usuarios' => $rutaImagen,
         ]);
 
@@ -91,7 +106,7 @@ class Usuarios extends Component
         $usuario = Usuario::findOrFail($id);
         $this->user = $usuario->user;
         $this->password = '';
-        $this->empleado_id = $usuario->empleado_id;
+        $this->correoEmpleado = $usuario->empleado->correoEmpleado;
         $this->usuario_id = $usuario->id;
         $this->image_path_Usuarios = null;
         $this->modoEdicion = true;
@@ -104,16 +119,23 @@ class Usuarios extends Component
         $rules = [
             'user' => 'required|string|max:45|unique:usuarios,user,' . $usuario->id,
             'password' => 'nullable|string|min:6',
-            'empleado_id' => 'required|exists:empleados,id',
+            'correoEmpleado' => 'required|exists:empleados,correoEmpleado',
             'image_path_Usuarios' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ];
 
         try {
             $this->validate($rules);
 
+            $empleado = Empleado::where('correoEmpleado', $this->correoEmpleado)->firstOrFail();
+
+            // Depuración: Loguear el nombre del archivo subido
+            if ($this->image_path_Usuarios) {
+                Log::debug('Imagen subida en actualizarUsuario: ' . $this->image_path_Usuarios->getClientOriginalName());
+            }
+
             $data = [
                 'user' => $this->user,
-                'empleado_id' => $this->empleado_id,
+                'empleado_id' => $empleado->id,
             ];
 
             if ($this->password) {
@@ -121,7 +143,6 @@ class Usuarios extends Component
             }
 
             if ($this->image_path_Usuarios) {
-                // Delete old image if exists
                 if ($usuario->image_path_Usuarios) {
                     Storage::disk('public')->delete($usuario->image_path_Usuarios);
                 }

@@ -3,20 +3,21 @@
 namespace App\Livewire\Usuarios;
 
 use Livewire\Component;
-use Livewire\WithFileUploads; // Agregar el trait
+use Livewire\WithFileUploads;
 use App\Models\Empleado;
 use App\Models\Usuario;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 class TablaUsuarios extends Component
 {
-    use WithFileUploads; // Usar el trait para habilitar subidas de archivos
+    use WithFileUploads;
 
     public $idUsuarioAEliminar = null;
     public $mostrarConfirmacion = false;
     public $mostrarModalEditar = false;
     public $mostrarModalImagen = false;
-    public $user, $password, $empleado_id, $image_path_Usuarios, $idUsuarioEditar;
+    public $user, $password, $correoEmpleado, $image_path_Usuarios, $idUsuarioEditar;
     public $searchTerm = '';
     public $searchField = 'user';
 
@@ -49,7 +50,7 @@ class TablaUsuarios extends Component
         $this->idUsuarioEditar = $usuario->id;
         $this->user = $usuario->user;
         $this->password = '';
-        $this->empleado_id = $usuario->empleado_id;
+        $this->correoEmpleado = $usuario->empleado->correoEmpleado;
         $this->image_path_Usuarios = null;
         $this->mostrarModalEditar = true;
         $this->resetErrorBag();
@@ -59,7 +60,7 @@ class TablaUsuarios extends Component
     public function cerrarModalEditar()
     {
         $this->mostrarModalEditar = false;
-        $this->reset(['idUsuarioEditar', 'user', 'password', 'empleado_id', 'image_path_Usuarios']);
+        $this->reset(['idUsuarioEditar', 'user', 'password', 'correoEmpleado', 'image_path_Usuarios']);
         $this->resetErrorBag();
         $this->dispatch('modalClose');
     }
@@ -79,19 +80,32 @@ class TablaUsuarios extends Component
         $this->dispatch('modalClose');
     }
 
+    public function limpiarImagen()
+    {
+        $this->image_path_Usuarios = null;
+        $this->resetErrorBag('image_path_Usuarios');
+    }
+
     public function guardarUsuario()
     {
         $this->validate([
             'user' => 'required|string|max:45|unique:usuarios,user,' . $this->idUsuarioEditar,
             'password' => 'nullable|string|min:6',
-            'empleado_id' => 'required|exists:empleados,id',
+            'correoEmpleado' => 'required|exists:empleados,correoEmpleado',
             'image_path_Usuarios' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         $usuario = Usuario::find($this->idUsuarioEditar);
+        $empleado = Empleado::where('correoEmpleado', $this->correoEmpleado)->firstOrFail();
+
+        // Depuración: Loguear el nombre del archivo subido
+        if ($this->image_path_Usuarios) {
+            Log::debug('Imagen subida en guardarUsuario (TablaUsuarios): ' . $this->image_path_Usuarios->getClientOriginalName());
+        }
+
         $data = [
             'user' => $this->user,
-            'empleado_id' => $this->empleado_id,
+            'empleado_id' => $empleado->id,
         ];
 
         if ($this->password) {

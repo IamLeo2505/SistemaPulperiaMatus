@@ -23,15 +23,34 @@
             </h2>
 
             <form wire:submit.prevent="{{ $modoEdicion ? 'actualizarUsuario' : 'guardarUsuario' }}" class="space-y-3">
-                <input type="text" wire:model="user" id="user" placeholder="Nombre Usuario" class="w-full border rounded p-2 text-black">
-                <input type="text" wire:model="password" id="password" placeholder="Contraseña" class="w-full border rounded p-2 text-black">
-                <select wire:model="correoEmpleado" id="correoEmpleado" class="w-full border rounded p-2 text-black">
-                    <option value="">Seleccione un empleado</option>
-                    @foreach ($usuarios as $empleado)
-                        <option value="{{ $empleado->id }}">{{ $empleado->correoEmpleado }}</option>
-                    @endforeach
-                </select>
-                <input type="file" wire:model="image_path_Usuarios" id="image_path_Usuarios" accept="image/jpeg,image/png,image/jpg" class="w-full border rounded p-2">
+                <div>
+                    <label for="user" class="block text-sm font-medium text-gray-700">Nombre de Usuario</label>
+                    <input type="text" wire:model="user" id="user" placeholder="Nombre Usuario" class="w-full border rounded p-2 text-black">
+                    @error('user') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                </div>
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700">Contraseña</label>
+                    <input type="password" wire:model="password" id="password" placeholder="Contraseña" class="w-full border rounded p-2 text-black">
+                    @error('password') <span class="text-red-500 text-xs">{{ '$message' }}</span> @enderror
+                </div>
+                <div>
+                    <label for="correoEmpleado" class="block text-sm font-medium text-gray-700">Correo Electrónico</label>
+                    <select wire:model="correoEmpleado" id="correoEmpleado" class="w-full border rounded p-2 text-black">
+                        <option value="">Seleccione un empleado</option>
+                        @foreach ($empleados as $empleado)
+                            <option value="{{ $empleado->correoEmpleado }}">{{ $empleado->correoEmpleado }}</option>
+                        @endforeach
+                    </select>
+                    @error('correoEmpleado') <span class="text-red-500 text-xs">{{ '$message' }}</span> @enderror
+                </div>
+                <div>
+                    <label for="image_path_Usuarios" class="block text-sm font-medium text-gray-700">Foto de Perfil</label>
+                    <input type="file" wire:model.live="image_path_Usuarios" id="image_path_Usuarios" accept="image/jpeg,image/png,image/jpg" class="w-full border rounded p-2">
+                    @if ($image_path_Usuarios)
+                        <button type="button" wire:click="limpiarImagen" class="bg-red-500 text-white px-4 py-2 rounded">Eliminar imagen seleccionada</button>
+                    @endif
+                    @error('image_path_Usuarios') <span class="text-red-500 text-xs">{{ '$message' }}</span> @enderror
+                </div>
 
                 <div class="flex justify-end space-x-2">
                     <button type="button" wire:click="cerrarModal" class="bg-gray-500 text-white px-4 py-2 rounded">Cancelar</button>
