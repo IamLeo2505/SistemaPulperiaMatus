@@ -59,10 +59,11 @@ class TablaEmpleados extends Component
     public function guardarEmpleado()
     {
         $this->validate([
-            'nombreEmpleado' => 'required|string|max:255',
-            'apellidoEmpleado' => 'required|string|max:255',
-            'correoEmpleado' => 'required|string|max:255',
-            'direccionEmpleado' => 'required|string|max:255',
+            'nombreEmpleado' => 'required|string|regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/|min:3|max:10',
+            'apellidoEmpleado' => 'required|string|regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/|min:4|max:15',
+            'correoEmpleado' => 'required|email|ends_with:@gmail.com|min:13|max:45',
+            'direccionEmpleado' => 'required|string|regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9#\-\s]+$/|min:10|max:50',
+
         ]);
 
         $empleado = Empleado::find($this->idEmpleadoEditar);

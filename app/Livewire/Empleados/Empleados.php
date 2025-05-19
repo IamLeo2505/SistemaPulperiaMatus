@@ -72,10 +72,10 @@ class Empleados extends Component
     public function guardarEmpleado()
     {
         $this->validate([
-            'nombreEmpleado' => 'required|string',
-            'apellidoEmpleado' => 'required|string',
-            'correoEmpleado' => 'required|string',
-            'direccionEmpleado' => 'required|string',
+            'nombreEmpleado' => 'required|string|regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/|min:3|max:10',
+            'apellidoEmpleado' => 'required|string|regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/|min:4|max:15',
+            'correoEmpleado' => 'required|email|ends_with:@gmail.com|min:13|max:45',
+            'direccionEmpleado' => 'required|string|regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9#\-\s]+$/|min:10|max:50',
         ]);
 
         Empleado::create([
@@ -85,7 +85,6 @@ class Empleados extends Component
             'direccionEmpleado' => $this->direccionEmpleado,
         ]);
 
-        session()->flash('mensaje', 'Empleado creado correctamente.');
         $this->cerrarModal();
         $this->resetCampos();
         $this->dispatch('empleadoActualizado');
@@ -106,10 +105,11 @@ class Empleados extends Component
     public function actualizarEmpleado()
     {
         $this->validate([
-            'nombreEmpleado' => 'required',
-            'apellidoEmpleado' => 'required',
-            'correoEmpleado' => 'required',
-            'direccionEmpleado' => 'required',
+            'nombreEmpleado' => 'nullable|string|regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/|min:3|max:10',
+            'apellidoEmpleado' => 'nullable|string|regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/|min:4|max:15',
+            'correoEmpleado' => 'nullable|email|ends_with:@gmail.com|min:13|max:45',
+            'direccionEmpleado' => 'nullable|string|regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9#\-\s]+$/|min:10|max:50',
+
         ]);
 
         $empleado = Empleado::find($this->empleado_id);
@@ -120,7 +120,6 @@ class Empleados extends Component
             'direccionEmpleado' => $this->direccionEmpleado,
         ]);
 
-        session()->flash('mensaje', 'Empleado actualizado correctamente.');
         $this->cerrarModal();
         $this->resetCampos();
         $this->dispatch('empleadoActualizado');
@@ -150,7 +149,7 @@ class Empleados extends Component
             $empleado = Empleado::findOrFail($this->empleadoAEliminar);
             $empleado->delete();
             $this->reset(['empleadoAEliminar', 'mostrarConfirmacion', 'mostrarAdvertenciaUsuario']);
-            session()->flash('mensaje', 'Empleado eliminado correctamente.');
+
             $this->dispatch('empleadoActualizado');
         }
     }

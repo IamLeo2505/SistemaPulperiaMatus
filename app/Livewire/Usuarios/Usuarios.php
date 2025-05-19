@@ -84,7 +84,12 @@ class Usuarios extends Component
 
     public function guardarUsuario()
     {
-        $this->validate();
+        $this->validate([
+            'user' => 'required|string|max:45|unique:usuarios,user,' . '$usuario->id',
+            'password' => 'required|string|min:6|max:50',
+            'empleado_id' => 'required|exists:empleados,correoEmpleado',
+            'image_path_Usuarios' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
 
         $empleado = Empleado::where('correoEmpleado', $this->correoEmpleado)->firstOrFail();
 
@@ -106,7 +111,6 @@ class Usuarios extends Component
             'image_path_Usuarios' => $rutaImagen,
         ]);
 
-        session()->flash('mensaje', 'Usuario creado correctamente.');
         $this->cerrarModal();
         $this->resetCampos();
         $this->dispatch('usuarioActualizado');
@@ -128,9 +132,9 @@ class Usuarios extends Component
     {
         $usuario = Usuario::find($this->usuario_id);
         $rules = [
-            'user' => 'required|string|max:45|unique:usuarios,user,' . $usuario->id,
-            'password' => 'nullable|string|min:6',
-            'correoEmpleado' => 'required|exists:empleados,correoEmpleado',
+            'user' => 'nullable|string|regex:/^[a-zA-Z]$/|min:6|max:45|unique:usuarios,user,' . $usuario->id,
+            'password' => 'nullable|string|min:6|max:50',
+            'correoEmpleado' => 'nullable|exists:empleados,correoEmpleado',
             'image_path_Usuarios' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ];
 
@@ -163,7 +167,6 @@ class Usuarios extends Component
 
             $usuario->update($data);
 
-            session()->flash('mensaje', 'Usuario actualizado correctamente.');
             $this->cerrarModal();
             $this->resetCampos();
             $this->dispatch('usuarioActualizado');
@@ -184,7 +187,7 @@ class Usuarios extends Component
             Storage::disk('public')->delete($usuario->image_path_Usuarios);
         }
         $usuario->delete();
-        session()->flash('mensaje', 'Usuario eliminado correctamente.');
+        
         $this->dispatch('usuarioActualizado');
     }
 

@@ -98,7 +98,7 @@ class TablaUsuarios extends Component
     {
         $this->validate([
             'user' => 'required|string|max:45|unique:usuarios,user,' . $this->idUsuarioEditar,
-            'password' => 'nullable|string|min:6',
+            'password' => 'required|nullable|string|min:6|max:50',
             'correoEmpleado' => 'required|exists:empleados,correoEmpleado',
             'image_path_Usuarios' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
