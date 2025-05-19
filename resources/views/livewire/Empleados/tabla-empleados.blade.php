@@ -28,17 +28,16 @@
                         <td>{{ $empleado->direccionEmpleado }}</td>
                         <td class="px-4 py-2">
                             <div class="flex items-center gap-10">
-                                <button
-                                    wire:click="abrirModalEditar({{ $empleado->id }}, '{{ $empleado->nombreEmpleado }}', '{{ $empleado->apellidoEmpleado }}', '{{ $empleado->correoEmpleado }}', '{{ $empleado->direccionEmpleado }}')"
-                                    class="text-blue-600 hover:text-blue-800"
-                                    title="Editar">
+                                <button wire:click="abrirModalEditar({{ $empleado->id }})"
+                                        class="text-blue-600 hover:text-blue-800" title="Editar">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="w-5 h-5 inline-block">
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                             d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                                     </svg>
                                 </button>
-                                <button wire:click="solicitarConfirmacion({{ $empleado->id }})" class="text-red-600 hover:text-red-800" title="Eliminar">
+                                <button wire:click="solicitarConfirmacion({{ $empleado->id }})"
+                                        class="text-red-600 hover:text-red-800" title="Eliminar">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="w-5 h-5 inline-block">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -53,10 +52,11 @@
         </table>
     @endif
 
+    <!-- Modal de edición -->
     <input type="checkbox" id="modal-editar" class="modal-toggle" {{ $mostrarModalEditar ? 'checked' : '' }} />
     <div class="modal" role="dialog">
-        <div class="modal-box text-black bg-[#ffffff]">
-            <h3 class="font-bold text-lg ">Editar Empleado</h3>
+        <div class="modal-box text-black bg-white">
+            <h3 class="font-bold text-lg">Editar Empleado</h3>
             <form wire:submit.prevent="guardarEmpleado">
                 <div class="mb-4">
                     <label for="nombreEmpleado" class="block text-sm font-medium text-gray-700">Nombre</label>
@@ -64,8 +64,8 @@
                     @error('nombreEmpleado') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                 </div>
                 <div class="mb-4">
-                    <label for="apellido" class="block text-sm font-medium text-gray-700">Apellido</label>
-                    <input wire:model="apellidoEmpleado" type="text" id="apellido" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+                    <label for="apellidoEmpleado" class="block text-sm font-medium text-gray-700">Apellido</label>
+                    <input wire:model="apellidoEmpleado" type="text" id="apellidoEmpleado" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
                     @error('apellidoEmpleado') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                 </div>
                 <div class="mb-4">
@@ -86,14 +86,28 @@
         </div>
     </div>
 
+    <!-- Modal de confirmación estándar -->
     <input type="checkbox" id="modal-confirmacion" class="modal-toggle" {{ $mostrarConfirmacion ? 'checked' : '' }} />
     <div class="modal" role="dialog">
-        <div class="modal-box text-white bg-[#004173]">
+        <div class="modal-box text-black bg-white">
             <h3 class="font-bold text-lg">¿Seguro que deseas eliminar este empleado?</h3>
             <p class="py-4">Esta acción no se puede deshacer.</p>
             <div class="modal-action">
-                <button wire:click="cancelarEliminacion" class="btn bg-gray-500 hover:bg-gray-600">Cancelar</button>
-                <button wire:click="eliminarEmpleado" class="btn btn-error text-white bg-red-600">Eliminar</button>
+                <button wire:click="cancelarEliminacion" class="bg-gray-500 text-white px-4 py-2 rounded-md">Cancelar</button>
+                <button wire:click="eliminar" class="bg-red-600 text-white px-4 py-2 rounded-md">Eliminar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de advertencia por usuario asociado -->
+    <input type="checkbox" id="modal-advertencia-usuario" class="modal-toggle" {{ $mostrarAdvertenciaUsuario ? 'checked' : '' }} />
+    <div class="modal" role="dialog">
+        <div class="modal-box text-black bg-white">
+            <h3 class="font-bold text-lg">¡Advertencia!</h3>
+            <p class="py-4">Este empleado tiene un usuario registrado. Eliminar al empleado también eliminará el usuario. ¿Estás seguro?</p>
+            <div class="modal-action">
+                <button wire:click="cancelarEliminacion" class="bg-gray-500 text-white px-4 py-2 rounded-md">Cancelar</button>
+                <button wire:click="eliminar" class="bg-red-600 text-white px-4 py-2 rounded-md">Eliminar</button>
             </div>
         </div>
     </div>

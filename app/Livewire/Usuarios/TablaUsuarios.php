@@ -129,8 +129,6 @@ class TablaUsuarios extends Component
         }
 
         $usuario->update($data);
-
-        session()->flash('message', 'Usuario actualizado exitosamente.');
         $this->cerrarModalEditar();
     }
 
@@ -155,7 +153,6 @@ class TablaUsuarios extends Component
             }
             $usuario->delete();
             $this->reset(['idUsuarioAEliminar', 'mostrarConfirmacion']);
-            session()->flash('message', 'Usuario eliminado correctamente.');
         }
     }
 }
