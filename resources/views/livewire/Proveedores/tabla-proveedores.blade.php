@@ -53,7 +53,7 @@
             </tbody>
         </table>
     @endif
-
+    
      <input type="checkbox" id="modal-editar" class="modal-toggle" {{ $mostrarModalEditar ? 'checked' : '' }} />
     <div class="modal" role="dialog">
         <div class="modal-box text-black bg-[#ffffff]">

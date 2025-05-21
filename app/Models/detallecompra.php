@@ -9,7 +9,7 @@ class DetalleCompra extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['cantidad', 'descuento', 'precio_compra', 'subtotal', 'total', 'compra_id', 'producto_id'];
+    protected $fillable = ['cantidad', 'precio_compra', 'subtotal', 'total', 'compra_id', 'producto_id'];
     public function compra()
     {
         return $this->belongsTo(Compra::class, 'compra_id');

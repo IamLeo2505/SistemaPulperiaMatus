@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up()
 {
     Schema::create('productos', function (Blueprint $table) {
@@ -18,7 +15,6 @@ return new class extends Migration
         $table->string('descripcion', 255);
         $table->string('codigo_barras', 45);
         $table->integer('cantidadstock');
-        $table->integer('stockminimo');
         $table->date('fechavencimiento');
         $table->decimal('precio_producto', 10, 2);
         $table->foreignId('unidad_medida_id')->constrained('unidades_medidas');
@@ -28,11 +24,6 @@ return new class extends Migration
     });
 }
 
-
-
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('productos');

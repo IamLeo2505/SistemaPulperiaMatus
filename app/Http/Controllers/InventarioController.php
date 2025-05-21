@@ -4,14 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Livewire\Component;
+use App\Models\Producto;
+use Carbon\Carbon;
+
 class InventarioController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
+    
+
     public function index()
     {
-        //
+        return view('livewire.inventario.inventario');
     }
 
     /**

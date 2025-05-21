@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('ventas', function (Blueprint $table) {
             $table->id();
             $table->integer('nventa');
+            $table->date('fecha');
             $table->decimal('subtotal', 10, 2);
             $table->decimal('descuento', 10, 2);
             $table->decimal('iva', 10, 2);
