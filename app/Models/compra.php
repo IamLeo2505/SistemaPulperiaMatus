@@ -9,7 +9,7 @@ class Compra extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['ncompra', 'subtotal', 'descuento', 'iva', 'total', 'tiempo_id', 'empleado_id', 'proveedor_id'];
+    protected $fillable = ['ncompra', 'fecha', 'subtotal', 'descuento', 'iva', 'total', 'tiempo_id', 'empleado_id', 'proveedor_id'];
 
     public function tiempo()
     {
@@ -23,6 +23,18 @@ class Compra extends Model
 
     public function proveedor()
     {
-        return $this->hasMany(Proveedor::class, 'proveedor_id');
+        return $this->belongsTo(Proveedor::class, 'proveedor_id');
     }
+
+    public function detalles()
+{
+    return $this->hasMany(DetalleCompra::class, 'compra_id');
+}
+
+    public function usuario()
+{
+    return $this->belongsTo(Usuario::class, 'usuario_id');
+}
+
+
 }
