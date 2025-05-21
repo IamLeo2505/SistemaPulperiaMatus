@@ -7,25 +7,22 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     public function up()
-    {
-        Schema::create('productos', function (Blueprint $table) {
-            $table->id();
-            $table->string('image_path', 100);
-            $table->string('nombreProducto', 100);
-            $table->string('descripcion', 255);
-            $table->string('codigo_barras', 45);
-            $table->integer('cantidadstock');
-            $table->integer('stockminimo');
-            $table->date('fechavencimiento');
-            $table->decimal('precio_producto', 10, 2);
-
-            $table->foreignId('unidad_medida_id')->constrained('unidades_medidas');
-            $table->foreignId('categoria_id')->constrained('categorias');
-            $table->foreignId('marca_id')->constrained('marcas');
-
-            $table->timestamps();
-        });
-    }
+{
+    Schema::create('productos', function (Blueprint $table) {
+        $table->id();
+        $table->string('image_path', 100);
+        $table->string('nombreProducto', 100);
+        $table->string('descripcion', 255);
+        $table->string('codigo_barras', 45);
+        $table->integer('cantidadstock');
+        $table->date('fechavencimiento');
+        $table->decimal('precio_producto', 10, 2);
+        $table->foreignId('unidad_medida_id')->constrained('unidades_medidas');
+        $table->foreignId('categoria_id')->constrained('categorias');
+        $table->foreignId('marca_id')->constrained('marcas');
+        $table->timestamps();
+    });
+}
 
     public function down(): void
     {
