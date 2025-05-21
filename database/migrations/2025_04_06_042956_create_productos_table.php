@@ -18,7 +18,6 @@ return new class extends Migration
         $table->string('descripcion', 255);
         $table->string('codigo_barras', 45);
         $table->integer('cantidadstock');
-        $table->integer('stockminimo');
         $table->date('fechavencimiento');
         $table->decimal('precio_producto', 10, 2);
         $table->foreignId('unidad_medida_id')->constrained('unidades_medidas');
