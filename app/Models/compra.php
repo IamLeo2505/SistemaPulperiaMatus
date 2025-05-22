@@ -9,12 +9,12 @@ class Compra extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['ncompra', 'fecha', 'subtotal', 'descuento', 'iva', 'total', 'tiempo_id', 'empleado_id', 'proveedor_id'];
+    protected $fillable = ['ncompra', 'fecha', 'subtotal', 'descuento', 'iva', 'total', 'empleado_id', 'proveedor_id', 'usuario_id',];
 
-    public function tiempo()
-    {
-        return $this->belongsTo(Tiempo::class, 'tiempo_id');
-    }
+    // public function tiempo()
+    // {
+    //     return $this->belongsTo(Tiempo::class, 'tiempo_id');
+    // }
 
     public function empleado()
     {
