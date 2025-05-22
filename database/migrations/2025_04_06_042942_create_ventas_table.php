@@ -21,6 +21,7 @@ return new class extends Migration
             $table->decimal('total', 10, 2);
             $table->foreignId('empleado_id')->constrained('empleados');
             $table->foreignId('cliente_id')->constrained('clientes');
+            $table->foreignId('usuario_id')->nullable()->constrained('usuarios')->nullOnDelete();
             $table->timestamps();
         });
     }
