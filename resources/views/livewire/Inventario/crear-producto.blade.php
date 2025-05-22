@@ -59,7 +59,7 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Unidad de Medida</label>
-                <select wire:model="unidad_medida_id    " class="mt-1 block w-full border border-gray-300 rounded-md p-2 text-sm text-black">
+                <select wire:model="unidad_medida_id" class="mt-1 block w-full border border-gray-300 rounded-md p-2 text-sm text-black">
                     <option value="">Seleccione</option>
                     @foreach ($unidades as $u)
                         <option value="{{ $u->id }}">{{ $u->nombre_unidad }}</option>

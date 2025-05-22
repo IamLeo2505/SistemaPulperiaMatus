@@ -2,10 +2,81 @@
     <h1 class="text-black font-bold mb-4">Gestión de Categorías</h1>
 
     @if (session()->has('mensaje'))
-        <div class="blue-200 p-2 rounded mb-4">{{ session('mensaje') }}</div>
+        <div class="bg-blue-700 p-2 rounded mb-4">{{ session('mensaje') }}</div>
     @endif
 
-<div>
+<div class="flex flex-wrap items-center gap-4 mb-4">
+    <!-- Input de búsqueda -->
+    <div class="relative flex items-center overflow-hidden w-[32rem] h-[42px] border-2 border-[#004173] rounded-full">
+        <!-- Icono lupa al inicio -->
+        <button wire:click="buscar" class="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-600 bg-transparent focus:outline-none">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                fill="none" viewBox="0 0 24 24"
+                stroke-width="1.5" stroke="currentColor"
+                class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+            </svg>
+        </button>
+
+        <!-- Input -->
+        <input
+            wire:model.debounce.300ms="termino"
+            type="text"
+            placeholder="Buscar categoría..."
+            class="w-full h-full px-12 text-black bg-transparent focus:outline-none rounded-full" />
+
+        <!-- Botón limpiar -->
+        <button onclick="location.reload()"
+            class="absolute inset-y-0 right-[6rem] flex items-center pr-3 text-gray-400 bg-transparent focus:outline-none z-20 cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                fill="none" viewBox="0 0 24 24"
+                stroke-width="1.5" stroke="currentColor"
+                class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+
+        <!-- Botón buscar -->
+        <button wire:click="buscar"
+            class="absolute inset-y-0 right-0 flex items-center px-4 text-white bg-[#004173] rounded-r-full h-full hover:bg-[#00345c] transition focus:outline-none text-sm z-20">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                fill="none" viewBox="0 0 24 24"
+                stroke-width="1.5" stroke="currentColor"
+                class="w-5 h-5 mr-2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+            </svg>
+            <span>Buscar</span>
+        </button>
+    </div>
+
+
+    <!-- Botones al lado del buscador -->
+    <a href="{{ route('inventario.marcas') }}"
+        class="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition">
+        Ver Marcas
+    </a>
+
+    <a href="{{ route('inventario') }}"
+        class="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition">
+        Ver Inventario
+    </a>
+    <button
+    wire:click="abrirModalCrear"
+    class="inline-flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition">
+
+    <!-- Ícono de añadir -->
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+        stroke-width="2" stroke="currentColor" class="w-5 h-5">
+        <path stroke-linecap="round" stroke-linejoin="round"
+            d="M12 4.5v15m7.5-7.5h-15" />
+    </svg>
+
+    Agregar Categoría
+    </button>
+
+</div>
 
 
 <div class="overflow-hidden rounded-3xl shadow-lg mt-8 mb-8">
@@ -19,7 +90,7 @@
             <p class="text-lg font-semibold">No se encontraron categorías con ese criterio.</p>
         </div>
     @else
-        <table class="table w-full">
+        <table class="table ">
             <thead class="bg-[#004173] text-white">
                 <tr>
                     <th>Nombre</th>
@@ -44,7 +115,7 @@
                                     </svg>
                                 </button>
 
-                                <button wire:click="solicitarConfirmacion({{ $c->id }})" class="text-red-600 hover:text-red-800" title="Eliminar">
+                                <button wire:click="confirmarEliminacion({{ $c->id }})" class="text-red-600 hover:text-red-800" title="Eliminar">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="w-5 h-5 inline-block">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -57,7 +128,63 @@
                 @endforeach
             </tbody>
         </table>
+        <div class="mt-3 px-2 items-center">
+            {{ $categorias->links() }}
+        </div>
     @endif
+
+
+
+ <!-- Modal Formulario -->
+    @if($modal)
+    <div class="fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center">
+        <div class="bg-white p-6 rounded shadow-md w-96">
+            <h2 class="text-xl mb-4 text-black">{{ $categoria_id ? 'Editar Categoría' : 'Nueva Categoría' }}</h2>
+            <input wire:model="nombre_categoria" type="text" placeholder="Nombre de la categoría" class="w-full border p-2 rounded mb-4 text-black">
+            @error('nombre_categoria') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+
+            <div class="flex justify-end gap-2">
+                <button wire:click="cerrarModal" class="bg-gray-300 px-4 py-2 rounded">Cancelar</button>
+                <button wire:click="guardar" class="bg-blue-600 text-white px-4 py-2 rounded">Guardar</button>
+            </div>
+        </div>
+    </div>
+    @endif
+
+    <!-- Modal Confirmación Eliminar -->
+@if($modalConfirmarEliminacion)
+    <div class="fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center">
+        <div class="bg-[#004173] p-6 rounded shadow-md w-96">
+            <h2 class="text-lg mb-4 text-white">¿Estás seguro de eliminar esta categoría?</h2>
+            <div class="flex justify-end gap-2">
+                <button wire:click="cerrarModal" class="btn bg-gray-500 hover:bg-gray-600 px-4 py-2 rounded">Cancelar</button>
+                <button wire:click="eliminar" class="btn btn-error text-white bg-red-600 px-4 py-2 rounded">Eliminar</button>
+            </div>
+        </div>
+    </div>
+    @endif
+
+@if($modal)
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+        <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+            <h2 class="text-lg font-bold mb-4 text-black">Agregar Categoría</h2>
+
+            <input type="text" wire:model="nombre_categoria" placeholder="Nombre de la Categoría"
+                   class="w-full border border-gray-300 rounded p-2 mb-4 focus:outline-none focus:ring focus:ring-blue-400 text-black">
+
+            @error('nombre_categoria') 
+                <span class="text-red-500 text-sm">{{ $message }}</span> 
+            @enderror
+
+            <div class="flex justify-end space-x-2">
+                <button wire:click="cerrarModal" class="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded">Cancelar</button>
+                <button wire:click="guardarCategoria" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">Guardar</button>
+            </div>
+        </div>
+    </div>
+@endif
+
+
 @push('scripts')
 <script>
     document.addEventListener('livewire:load', function () {
