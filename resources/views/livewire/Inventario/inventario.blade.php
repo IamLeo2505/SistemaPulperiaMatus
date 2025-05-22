@@ -160,6 +160,13 @@
         </table>
     @endif
 
+<a href="{{ route('inventario.crear') }}"
+   class="fixed right-10 bottom-18 bg-blue-600 text-white px-4 py-2 rounded-2xl z-10">
+    Agregar producto
+</a>
+
+
+
 
 
 @push('scripts')
