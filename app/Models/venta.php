@@ -9,12 +9,20 @@ class Venta extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nventa', 'subtotal', 'descuento', 'iva', 'total', 'tiempo_id', 'empleado_id', 'cliente_id'];
+    protected $fillable = [
+        'nventa',
+        'subtotal',
+        'descuento',
+        'iva',
+        'total',
+        'tiempo_id',
+        'empleado_id',
+        'cliente_id'];
 
-    public function tiempo()
+    /*public function tiempo()
     {
         return $this->belongsTo(Tiempo::class, 'tiempo_id');
-    }
+    }*/
 
     public function empleado()
     {
