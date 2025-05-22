@@ -26,7 +26,7 @@
                 @foreach ($compras as $index => $compra)
                 <tr class="{{ $index % 2 === 0 ? 'bg-white' : 'bg-gray-100' }} text-gray-800">
                     <td>{{ $compra->ncompra }}</td>
-                    <td>{{ $compra->tiempo->fecha ?? 'N/A' }}</td> 
+                    <td>{{ $compra->fecha ?? 'N/A' }}</td> 
                     <td>{{ $compra->proveedor->nombreProveedor ?? 'N/A' }}</td>
                     <td>${{ number_format($compra->subtotal, 2) }}</td>
                     <td>${{ number_format($compra->iva, 2) }}</td>
@@ -70,7 +70,7 @@
                     <p><strong>Compra N°:</strong> {{ $compraSeleccionada->ncompra }}</p>
                     <p><strong>Empleado:</strong> {{ $compraSeleccionada->usuario->empleado->nombreEmpleado ?? 'N/A' }} </p>                    
                     <p><strong>Proveedor:</strong> {{ $compraSeleccionada->proveedor->nombreProveedor ?? 'N/A' }}</p>
-                    <p><strong>Fecha:</strong> {{ $compraSeleccionada->tiempo->fecha ?? 'N/A' }}</p>
+                    <p><strong>Fecha:</strong> {{ $compraSeleccionada->fecha ?? 'N/A' }}</p>
                 </div>
 
                 <table class="table w-full mb-4">

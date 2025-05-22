@@ -181,13 +181,13 @@ $compra = Compra::create([
     'iva' => $this->iva,
     'descuento' => $this->descuento,
     'total' => $this->total,
-    'tiempo_id' => Carbon::parse($this->fecha)->format('Ym'),
+    'fecha' => $this->fecha,
     'usuario_id' => $user->id,
     'empleado_id' => $user->empleado->id ?? null,
     'proveedor_id' => $this->proveedor_id,
 ]);
 
-\Log::info('Compra creada correctamente: ', ['id' => $compra->id]);
+
 
 
             // 4. Guardar los detalles de la compra y actualizar el stock
@@ -198,9 +198,9 @@ DetalleCompra::create([
     'cantidad' => $item['cantidad'],
     'precio_compra' => $item['precio'],
     'subtotal' => $item['subtotal'],
-    'iva_monto' => $item['iva'],              // 🔁 Antes: iva_monto
-    'descuento_monto' => $item['descuento'],  // 🔁 Antes: descuento_item_monto
-    'total' => $item['total'],                // 🔁 Antes: total_item
+    'iva_monto' => $item['iva'],            
+    'descuento_monto' => $item['descuento'],  
+    'total' => $item['total'],             
 ]);
 
 
@@ -214,13 +214,15 @@ DetalleCompra::create([
             // 5. Reiniciar el formulario y mostrar mensaje de éxito
             session()->flash('success', '¡Compra registrada exitosamente y stock actualizado!');
             // Reinicia todas las propiedades a sus valores iniciales, excepto los datos maestros
-            $this->inicializarFormulario(); 
+            
         } catch (\Exception $e) {
             // 6. Manejo de errores
             session()->flash('error', 'Ocurrió un error al registrar la compra: ' . $e->getMessage());
-            \Log::error('Error al guardar compra: ' . $e->getMessage()); // Para depuración en los logs de Laravel
+               \Log::error('Error al guardar compra: ' . $e->getMessage());
+    dd($e); // <- Esto te muestra exactamente el problema
+    session()->flash('error', 'Ocurrió un error al registrar la compra: ' . $e->getMessage());
         }
-       // dd("Se ha registrado la compra");
+      // dd("Se ha registrado la compra");
     }
 
         public function render()

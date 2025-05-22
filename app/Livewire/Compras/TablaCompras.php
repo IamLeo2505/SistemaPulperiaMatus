@@ -27,7 +27,7 @@ class TablaCompras extends Component
 
     public function render()
     {
-        $compras = Compra::with(['proveedor', 'empleado', 'detalles.producto', 'tiempo'])
+        $compras = Compra::with(['proveedor', 'empleado', 'detalles.producto'])
             ->when($this->searchTerm, function ($query) {
                 // Evita SQL error si el campo no existe
                 if (in_array($this->searchField, ['ncompra', 'total', 'iva', 'subtotal'])) {
@@ -55,7 +55,6 @@ class TablaCompras extends Component
         $this->compraSeleccionada = Compra::with([
             'proveedor',
             'empleado',
-            'tiempo',
             'detalles.producto'
         ])->findOrFail($id);
 
