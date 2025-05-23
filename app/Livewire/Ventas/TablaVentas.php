@@ -4,6 +4,8 @@ namespace App\Livewire\Ventas;
 
 use Livewire\Component;
 use App\Models\Venta;
+use App\Models\Producto;
+use Illuminate\Support\Facades\Log;
 
 class TablaVentas extends Component
 {
@@ -33,11 +35,11 @@ class TablaVentas extends Component
                     $query->where($this->searchField, 'like', '%' . $this->searchTerm . '%');
                 } elseif ($this->searchField === 'cliente') {
                     $query->whereHas('cliente', function ($q) {
-                        $q->where('nombre', 'like', '%' . $this->searchTerm . '%');
+                        $q->where('nombreCliente', 'like', '%' . $this->searchTerm . '%');
                     });
                 } elseif ($this->searchField === 'empleado') {
                     $query->whereHas('empleado', function ($q) {
-                        $q->where('nombre', 'like', '%' . $this->searchTerm . '%');
+                        $q->where('nombreEmpleado', 'like', '%' . $this->searchTerm . '%');
                     });
                 }
             })
@@ -68,6 +70,7 @@ class TablaVentas extends Component
 
     public function solicitarConfirmacion($id)
     {
+        Log::info('Solicitando confirmación para eliminar venta: ', ['id' => $id]);
         $this->idVentaAEliminar = $id;
         $this->mostrarConfirmacion = true;
     }
@@ -76,18 +79,32 @@ class TablaVentas extends Component
     {
         $this->reset(['idVentaAEliminar', 'mostrarConfirmacion']);
     }
-
     public function eliminarVenta()
     {
         if ($this->idVentaAEliminar) {
-            $venta = Venta::findOrFail($this->idVentaAEliminar);
+            try {
+                $venta = Venta::with('detalles')->findOrFail($this->idVentaAEliminar);
 
-            $venta->detalles()->delete();
+                // Restaurar el stock de los productos
+                foreach ($venta->detalles as $detalle) {
+                    $producto = Producto::find($detalle->producto_id);
+                    if ($producto) {
+                        $producto->increment('cantidadstock', $detalle->cantidad);
+                    }
+                }
 
-            $venta->delete();
+                // Eliminar los detalles de la venta
+                $venta->detalles()->delete();
 
-            $this->reset(['idVentaAEliminar', 'mostrarConfirmacion']);
-            session()->flash('message', 'Venta eliminada correctamente.');
+                // Eliminar la venta
+                $venta->delete();
+
+                $this->reset(['idVentaAEliminar', 'mostrarConfirmacion']);
+                session()->flash('message', 'Venta eliminada correctamente.');
+            } catch (\Exception $e) {
+                session()->flash('error', 'Error al eliminar la venta: ' . $e->getMessage());
+                Log::error('Error al eliminar venta: ', ['error' => $e->getMessage()]);
+            }
         }
     }
 }

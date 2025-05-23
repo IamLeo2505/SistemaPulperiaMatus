@@ -27,7 +27,7 @@
                 <tr class="{{ $index % 2 === 0 ? 'bg-white' : 'bg-gray-100' }} text-gray-800">
                     <td>{{ $venta->nventa }}</td>
                     <td>{{ $venta->fecha ?? 'N/A' }}</td>
-                    <td>{{ $venta->cliente->nombre ?? 'N/A' }}</td>
+                    <td>{{ $venta->cliente->nombreCliente ?? 'N/A' }} {{ $venta->cliente->apellidoCliente ?? 'N/A' }}</td>
                     <td>${{ number_format($venta->subtotal, 2) }}</td>
                     <td>${{ number_format($venta->iva, 2) }}</td>
                     <td>${{ number_format($venta->descuento, 2) }}</td>
@@ -60,6 +60,19 @@
         </table>
     @endif
 
+    {{-- Modal de Confirmación de Eliminación --}}
+    <input type="checkbox" id="modal-confirmacion" class="modal-toggle" {{ $mostrarConfirmacion ? 'checked' : '' }} />
+    <div class="modal" role="dialog">
+        <div class="modal-box text-black bg-white">
+            <h3 class="font-bold text-lg mb-4">Confirmar Eliminación</h3>
+            <p>¿Está seguro de que desea eliminar esta venta? Esta acción no se puede deshacer.</p>
+            <div class="flex justify-end gap-4 mt-4">
+                <button wire:click="cancelarEliminacion" class="bg-gray-500 text-white px-4 py-2 rounded-md">Cancelar</button>
+                <button wire:click="eliminarVenta" class="bg-red-600 text-white px-4 py-2 rounded-md">Eliminar</button>
+            </div>
+        </div>
+    </div>
+
     {{-- Modal de Detalles --}}
     <input type="checkbox" id="modal-detalle" class="modal-toggle" {{ $mostrarModalDetalle ? 'checked' : '' }} />
     <div class="modal" role="dialog">
@@ -68,8 +81,8 @@
             @if ($ventaSeleccionada)
                 <div class="mb-4">
                     <p><strong>Venta N°:</strong> {{ $ventaSeleccionada->nventa }}</p>
-                    <p><strong>Empleado:</strong> {{ $ventaSeleccionada->empleado->nombre ?? 'N/A' }}</p>
-                    <p><strong>Cliente:</strong> {{ $ventaSeleccionada->cliente->nombre ?? 'N/A' }}</p>
+                    <p><strong>Empleado:</strong> {{ $ventaSeleccionada->empleado->nombreEmpleado ?? 'N/A' }}</p>
+                    <p><strong>Cliente:</strong> {{ $ventaSeleccionada->cliente->nombreCliente ?? 'N/A' }} {{ $ventaSeleccionada->cliente->apellidoCliente ?? 'N/A' }}</p>
                     <p><strong>Fecha:</strong> {{ $ventaSeleccionada->fecha ?? 'N/A' }}</p>
                 </div>
 

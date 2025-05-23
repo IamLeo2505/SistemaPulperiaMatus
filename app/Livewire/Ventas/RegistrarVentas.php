@@ -49,7 +49,15 @@ class RegistrarVentas extends Component
     {
         $producto = Producto::find($producto_id);
 
-        if (!$producto) return;
+        if (!$producto) {
+            session()->flash('error', 'Producto no encontrado.');
+            return;
+        }
+
+        if ($producto->cantidadstock < $cantidad) {
+            session()->flash('error', 'Cantidad solicitada excede el stock disponible.');
+            return;
+        }
 
         $subtotal = $precio * $cantidad;
         $ivaMonto = $subtotal * ($this->iva / 100);
@@ -63,10 +71,10 @@ class RegistrarVentas extends Component
             'marca' => $producto->marca->nombreMarca,
             'nombre' => $producto->nombreProducto,
             'cantidad' => $cantidad,
-            'precio_venta' => $precio,
+            'precio' => $precio,
             'subtotal' => $subtotal,
-            'iva_monto' => $ivaMonto,
-            'descuento_monto' => $descuentoMonto,
+            'iva' => $ivaMonto,
+            'descuento' => $descuentoMonto,
             'total' => $total
         ];
 
@@ -141,7 +149,7 @@ class RegistrarVentas extends Component
             'nventa' => 'required|integer',
             'cliente_id' => 'required|exists:clientes,id',
             'detalle' => 'required|array|min:1',
-            'iva' => 'numeric|min:0|max:100',
+            'iva' => 'numeric|min:0|max:15',
             'descuento' => 'numeric|min:0|max:100',
         ], [
             'fecha.required' => 'La fecha de la venta es obligatoria.',
@@ -153,7 +161,7 @@ class RegistrarVentas extends Component
             'detalle.min' => 'Debe agregar al menos un producto a la venta.',
             'iva.numeric' => 'El IVA debe ser un número.',
             'iva.min' => 'El IVA no puede ser negativo.',
-            'iva.max' => 'El IVA no puede ser mayor a 100%.',
+            'iva.max' => 'El IVA no puede ser mayor a 15%.',
             'descuento.numeric' => 'El descuento debe ser un número.',
             'descuento.min' => 'El descuento no puede ser negativo.',
             'descuento.max' => 'El descuento no puede ser mayor a 100%.',
@@ -180,10 +188,10 @@ class RegistrarVentas extends Component
                     'venta_id' => $venta->id,
                     'producto_id' => $item['producto_id'],
                     'cantidad' => $item['cantidad'],
-                    'precio_venta' => $item['precio_venta'],
+                    'precio' => $item['precio'],
                     'subtotal' => $item['subtotal'],
-                    'iva_monto' => $item['iva_monto'],
-                    'descuento_monto' => $item['descuento_monto'],
+                    'iva' => $item['iva'],
+                    'descuento' => $item['descuento'],
                     'total' => $item['total'],
                 ]);
 
@@ -217,8 +225,10 @@ class RegistrarVentas extends Component
 
     public function render()
     {
+        $clientes = Cliente::all();
+        // dd($clientes->toArray()); // Descomentar para depuración si los clientes no aparecen
         return view('livewire.ventas.registrar-ventas', [
-            'clientes' => Cliente::all(),
+            'clientes' => $clientes,
             'productos' => Producto::all(),
         ]);
     }

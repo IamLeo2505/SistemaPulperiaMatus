@@ -11,11 +11,11 @@ class Venta extends Model
 
     protected $fillable = [
         'nventa',
+        'fecha',
         'subtotal',
         'descuento',
         'iva',
         'total',
-        'tiempo_id',
         'empleado_id',
         'cliente_id'];
 

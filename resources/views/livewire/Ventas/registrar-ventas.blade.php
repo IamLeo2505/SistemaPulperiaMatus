@@ -20,7 +20,7 @@
                         <select wire:model="cliente_id" class="w-full rounded-xl bg-gray-100 p-2 focus:outline-none border border-gray-300 text-black">
                             <option value="">Seleccione un cliente</option>
                             @foreach ($clientes as $cliente)
-                                <option value="{{ $cliente->id }}">{{ $cliente->nombre }}</option>
+                                <option value="{{ $cliente->id }}">{{ $cliente->nombreCliente }} {{ $cliente->apellidoCliente }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -32,7 +32,7 @@
                 </div>
 
                 <div class="flex justify-end gap-4 mt-4">
-                    <button type="button" wire:click="mount" class="bg-gray-500 text-white rounded-xl px-4 py-2 text-sm hover:bg-gray-700">
+                    <button type="button" wire:click="inicializarFormulario" class="bg-gray-500 text-white rounded-xl px-4 py-2 text-sm hover:bg-gray-700">
                         Nueva Venta
                     </button>
                 </div>
@@ -79,7 +79,6 @@
         </div>
 
         <div class="w-full md:w-2/5 flex flex-col gap-6">
-
             <div 
                 x-data="{
                     productos: window.productos,
@@ -160,11 +159,11 @@
                         </div>
                     </div>
                     <div>
-                        <label class="text-black">IVA:</label>
-                        <input type="text" wire:model="iva" value="15%" class="bg-gray-100 w-full h-10 rounded-xl p-2 border border-gray-300 text-black">
+                        <label class="text-black">IVA (%):</label>
+                        <input type="number" wire:model="iva" class="bg-gray-100 w-full h-10 rounded-xl p-2 border border-gray-300 text-black">
                     </div>
                     <div>
-                        <label class="text-black">Descuento:</label>
+                        <label class="text-black">Descuento (%):</label>
                         <input type="number" wire:model="descuento" class="bg-gray-100 w-full h-10 rounded-xl p-2 border border-gray-300 text-black">
                     </div>
                     <div>
@@ -179,7 +178,6 @@
                     <button wire:click="guardarVenta" class="bg-green-600 text-white px-4 py-2 rounded-xl hover:bg-green-800 text-sm">Finalizar Venta</button>
                 </div>
             </div>
-
         </div>
     </div>
     <script>
