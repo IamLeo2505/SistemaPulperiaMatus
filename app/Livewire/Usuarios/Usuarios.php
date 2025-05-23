@@ -84,36 +84,57 @@ class Usuarios extends Component
 
     public function guardarUsuario()
     {
-        $this->validate([
-            'user' => 'required|string|max:45|unique:usuarios,user,' . '$usuario->id',
-            'password' => 'required|string|min:6|max:50',
-            'empleado_id' => 'required|exists:empleados,correoEmpleado',
-            'image_path_Usuarios' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-        ]);
+        try {
+            // Validar los datos
+            $this->validate([
+                'user' => 'required|string|max:45|unique:usuarios,user',
+                'password' => 'required|string|min:6|max:50',
+                'correoEmpleado' => 'required|exists:empleados,correoEmpleado',
+                'image_path_Usuarios' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            ]);
 
-        $empleado = Empleado::where('correoEmpleado', $this->correoEmpleado)->firstOrFail();
+            // Buscar el empleado por correo
+            $empleado = Empleado::where('correoEmpleado', $this->correoEmpleado)->firstOrFail();
 
-        if ($this->image_path_Usuarios) {
-            Log::debug('Imagen subida en guardarUsuario: ' . $this->image_path_Usuarios->getClientOriginalName());
+            // Manejar la imagen si existe
+            $rutaImagen = null;
+            if ($this->image_path_Usuarios) {
+                Log::debug('Imagen subida en guardarUsuario: ' . $this->image_path_Usuarios->getClientOriginalName());
+                $nombreImagen = 'usuario_' . time() . '.' . $this->image_path_Usuarios->getClientOriginalExtension();
+                $rutaImagen = $this->image_path_Usuarios->storeAs('profile_images', $nombreImagen, 'public');
+                $rutaImagen = 'profile_images/' . $nombreImagen;
+            }
+
+            // Crear el usuario
+            Usuario::create([
+                'user' => $this->user,
+                'password' => Hash::make($this->password),
+                'empleado_id' => $empleado->id,
+                'image_path_Usuarios' => $rutaImagen,
+            ]);
+
+            $this->cerrarModal();
+            $this->resetCampos();
+            $this->dispatch('usuarioActualizado');
+            session()->flash('mensaje', 'Usuario registrado exitosamente.');
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Manejar errores de validación
+            foreach ($e->errors() as $field => $messages) {
+                foreach ($messages as $message) {
+                    $this->addError($field, $message);
+                }
+            }
+            Log::error('Error de validación al guardar usuario: ' . json_encode($e->errors()));
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            // Manejar si el empleado no se encuentra
+            $this->addError('correoEmpleado', 'El correo electrónico del empleado no existe.');
+            Log::error('Error: Empleado no encontrado para correo: ' . $this->correoEmpleado);
+        } catch (\Exception $e) {
+            // Manejar cualquier otro error
+            $this->addError('general', 'Ocurrió un error al registrar el usuario. Intenta de nuevo.');
+            Log::error('Error al guardar usuario: ' . $e->getMessage());
         }
-
-        $rutaImagen = null;
-        if ($this->image_path_Usuarios) {
-            $nombreImagen = 'usuario_' . time() . '.' . $this->image_path_Usuarios->getClientOriginalExtension();
-            $rutaImagen = $this->image_path_Usuarios->storeAs('profile_images', $nombreImagen, 'public');
-            $rutaImagen = 'profile_images/' . $nombreImagen;
-        }
-
-        Usuario::create([
-            'user' => $this->user,
-            'password' => Hash::make($this->password),
-            'empleado_id' => $empleado->id,
-            'image_path_Usuarios' => $rutaImagen,
-        ]);
-
-        $this->cerrarModal();
-        $this->resetCampos();
-        $this->dispatch('usuarioActualizado');
     }
 
     public function editar($id)
