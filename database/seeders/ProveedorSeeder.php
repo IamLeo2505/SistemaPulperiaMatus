@@ -10,11 +10,15 @@ class ProveedorSeeder extends Seeder
 {
     public function run()
     {
+        //Proveedores fijos
         Proveedor::create([
             'nombreProveedor' => 'Carlos',
             'apellidoProveedor' => 'Lopez',
             'compañía' => 'Distribuidora Sur',
             'numeroProveedor' => '88881234'
         ]);
+
+        //Proveedores aleatorios
+        Proveedor::factory()->count(10)->create();
     }
 }

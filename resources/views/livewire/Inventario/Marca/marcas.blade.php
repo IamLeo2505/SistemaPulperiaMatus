@@ -1,4 +1,4 @@
-<div class="p-4 relative"> {{-- El contenedor padre con position: relative --}}
+<div class="p-4 relative">
     <h1 class="text-black font-bold mb-4">Gestión de Marcas</h1>
 
     @if (session()->has('mensaje'))

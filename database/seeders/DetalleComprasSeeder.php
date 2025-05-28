@@ -10,6 +10,7 @@ class DetalleComprasSeeder extends Seeder
 {
     public function run()
     {
+        // Detalles de compra fijos
         DetalleCompra::create([
             'cantidad' => 10,
             'precio_compra' => 1,
@@ -18,6 +19,13 @@ class DetalleComprasSeeder extends Seeder
             'compra_id' => 1,
             'producto_id' => 1
         ]);
+
+        /* 
+        /   Detalles de compra aleatorios
+        *   Descomentar la siguiente línea para generar detalles de compra aleatorios
+        */
+
+        // DetalleCompra::factory()->count(10)->create();
     }
 }
 

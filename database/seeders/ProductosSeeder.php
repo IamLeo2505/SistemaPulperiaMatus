@@ -10,8 +10,9 @@ class ProductosSeeder extends Seeder
 {
     public function run()
     {
+        // Productos fijos
         Producto::create([
-            'image_path' => 'producto1.jpg',
+            'image_path' => 'productos/cocacola.jpg',
             'nombreProducto' => 'Coca Cola 1L',
             'descripcion' => 'Refresco',
             'codigo_barras' => '123456789',
@@ -22,5 +23,8 @@ class ProductosSeeder extends Seeder
             'categoria_id' => 1,
             'marca_id' => 2
         ]);
+
+        // Productos aleatorios
+        Producto::factory()->count(10)->create();
     }
 }

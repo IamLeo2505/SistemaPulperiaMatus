@@ -10,7 +10,14 @@ class MarcasSeeder extends Seeder
 {
     public function run()
     {
-        Marca::create(['nombreMarca' => 'Nestlé']);
-        Marca::create(['nombreMarca' => 'Coca Cola']);
+        // Marcas fijas
+        Marca::firstOrCreate(['nombreMarca' => 'Nestlé']);
+        Marca::firstOrCreate(['nombreMarca' => 'Coca Cola Company']);
+        Marca::firstOrCreate(['nombreMarca' => 'Pepsi']);
+        Marca::firstOrCreate(['nombreMarca' => 'Unilever']);
+        Marca::firstOrCreate(['nombreMarca' => 'Colgate-Palmolive']);
+                
+        // Marcas aleatorias
+        Marca::factory()->count(10)->create();
     }
 }

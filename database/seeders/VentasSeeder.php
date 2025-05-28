@@ -10,16 +10,24 @@ class VentasSeeder extends Seeder
 {
     public function run()
     {
+        //Ventas fijas
         Venta::create([
             'nventa' => '1',
             'subtotal' => 100,
             'descuento' => 5,
-            'iva' => 13,
-            'total' => 108,
+            'iva' => 15,
+            'total' => 115,
             'fecha' => now(),
             'empleado_id' => 1,
             'cliente_id' => 1
         ]);
+
+        /*
+        * Ventas aleatorias
+        * Descomentar el siguiente código para generar ventas aleatorias
+        */
+
+        //Venta::factory(10)->create();
     }
 }
 

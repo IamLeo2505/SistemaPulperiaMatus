@@ -6,9 +6,7 @@
     @endif
 
 <div class="flex flex-wrap items-center gap-4 mb-4">
-    <!-- Input de búsqueda -->
     <div class="relative flex items-center overflow-hidden w-[32rem] h-[42px] border-2 border-[#004173] rounded-full">
-        <!-- Icono lupa al inicio -->
         <button wire:click="buscar" class="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-600 bg-transparent focus:outline-none">
             <svg xmlns="http://www.w3.org/2000/svg"
                 fill="none" viewBox="0 0 24 24"
@@ -19,14 +17,12 @@
             </svg>
         </button>
 
-        <!-- Input -->
         <input
             wire:model.debounce.300ms="termino"
             type="text"
             placeholder="Buscar producto..."
             class="w-full h-full px-12 text-black bg-transparent focus:outline-none rounded-full" />
 
-        <!-- Botón limpiar -->
         <button onclick="location.reload()"
             class="absolute inset-y-0 right-[6rem] flex items-center pr-3 text-gray-400 bg-transparent focus:outline-none z-20 cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg"
@@ -37,7 +33,6 @@
             </svg>
         </button>
 
-        <!-- Botón buscar -->
         <button wire:click="buscar"
             class="absolute inset-y-0 right-0 flex items-center px-4 text-white bg-[#004173] rounded-r-full h-full hover:bg-[#00345c] transition focus:outline-none text-sm z-20">
             <svg xmlns="http://www.w3.org/2000/svg"
@@ -51,9 +46,7 @@
         </button>
     </div>
 
-        <!-- Select con ícono de filtro embebido -->
         <div class="flex items-center border border-[#004173] bg-gray-200 rounded-full px-3 h-[42px] w-[10rem]">
-            <!-- Ícono filtro -->
             <svg xmlns="http://www.w3.org/2000/svg"
                 fill="none" viewBox="0 0 24 24"
                 stroke-width="1.5" stroke="currentColor"
@@ -62,7 +55,6 @@
                     d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
             </svg>
 
-            <!-- Select -->
             <select
                 wire:model="filtro"
                 class="select bg-transparent border-none text-black focus:outline-none text-sm w-full">
@@ -75,7 +67,6 @@
         </div>
 
 
-    <!-- Botones al lado del buscador -->
     <a href="{{ route('inventario.categorias') }}"
         class="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition">
         Ver Categoría
@@ -101,7 +92,7 @@
             <p class="text-lg font-semibold">No se encontraron productos con ese criterio.</p>
         </div>
     @else
-        <table id="tabla-inventario" class="table w-full">
+        <table class="table w-full"> {{-- Eliminamos el id="tabla-inventario" --}}
             <thead class="bg-[#004173] text-white">
                 <tr>
                     <th>Imagen</th>
@@ -158,6 +149,10 @@
                 @endforeach
             </tbody>
         </table>
+        {{-- Aquí se añade la paginación de Livewire --}}
+        <div class="mt-3 px-2 items-center">
+            {{ $productos->links() }}
+        </div>
     @endif
 
 <a href="{{ route('inventario.crear') }}"
@@ -165,36 +160,4 @@
     Agregar producto
 </a>
 
-
-
-
-
-@push('scripts')
-<script>
-    document.addEventListener('livewire:load', function () {
-        $('#tabla-inventario').DataTable({
-            responsive: true,
-            pageLength: 10,
-            language: {
-                url: '//cdn.datatables.net/plug-ins/1.13.1/i18n/es-ES.json'
-            }
-        });
-
-        Livewire.hook('message.processed', (message, component) => {
-            $('#tabla-inventario').DataTable().destroy();
-            setTimeout(() => {
-                $('#tabla-inventario').DataTable({
-                    responsive: true,
-                    pageLength: 10,
-                    language: {
-                        url: '//cdn.datatables.net/plug-ins/1.13.1/i18n/es-ES.json'
-                    }
-                });
-            }, 10);
-        });
-    });
-</script>
-@endpush
-
-
-
+</div>

@@ -2,14 +2,14 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use App\Models\Cliente;
 use Illuminate\Database\Seeder;
+use App\Models\Cliente;
 
 class ClientesSeeder extends Seeder
 {
     public function run()
     {
+        // Clientes fijos
         Cliente::create([
             'nombreCliente' => 'Ana',
             'apellidoCliente' => 'Martínez',
@@ -18,6 +18,8 @@ class ClientesSeeder extends Seeder
             'genero' => '0',
             'estado' => '1'
         ]);
+
+        // Clientes aleatorios
+        Cliente::factory()->count(10)->create();
     }
 }
-

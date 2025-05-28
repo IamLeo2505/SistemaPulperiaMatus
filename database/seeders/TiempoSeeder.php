@@ -10,6 +10,7 @@ class TiempoSeeder extends Seeder
 {
     public function run()
     {
+        // Tiempo fijo
         Tiempo::create([
             'fecha' => now(),
             'año' => now()->year,
@@ -18,6 +19,13 @@ class TiempoSeeder extends Seeder
             'trimestre' => 2,
             'horario' => now()->format('H:i:s')
         ]);
+
+        /*
+        * Tiempo aleatorio
+        * Descomentar para generar 10 registros aleatorios
+        */
+
+        //Tiempo::factory(10)->create();
     }
 }
 

@@ -10,6 +10,7 @@ class ComprasSeeder extends Seeder
 {
     public function run()
     {
+        // Compras fijas
         Compra::create([
             'ncompra' => '1',
             'fecha' => now(),
@@ -21,5 +22,13 @@ class ComprasSeeder extends Seeder
             'proveedor_id' => 1,
             'usuario_id' => 1
         ]);
+
+        /* 
+         * Compras aleatorias
+         * Descomentar la siguiente línea para generar compras aleatorias
+        */
+
+        // Compra::factory(10)->create();
+
     }
 }
