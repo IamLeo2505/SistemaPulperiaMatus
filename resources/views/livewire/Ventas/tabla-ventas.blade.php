@@ -81,7 +81,7 @@
             @if ($ventaSeleccionada)
                 <div class="mb-4">
                     <p><strong>Venta N°:</strong> {{ $ventaSeleccionada->nventa }}</p>
-                    <p><strong>Empleado:</strong> {{ $ventaSeleccionada->empleado->nombreEmpleado ?? 'N/A' }}</p>
+                    <p><strong>Empleado:</strong> {{ $ventaSeleccionada->empleado->nombreEmpleado ?? 'N/A' }} {{ $ventaSeleccionada->empleado->apellidoEmpleado ?? 'N/A' }}</p>
                     <p><strong>Cliente:</strong> {{ $ventaSeleccionada->cliente->nombreCliente ?? 'N/A' }} {{ $ventaSeleccionada->cliente->apellidoCliente ?? 'N/A' }}</p>
                     <p><strong>Fecha:</strong> {{ $ventaSeleccionada->fecha ?? 'N/A' }}</p>
                 </div>
@@ -109,10 +109,10 @@
                             <tr class="{{ $index % 2 === 0 ? 'bg-gray-100' : 'bg-white' }} text-gray-800">
                                 <td>{{ $detalle->producto->nombreProducto ?? 'Producto desconocido' }}</td>
                                 <td>{{ $detalle->cantidad }}</td>
-                                <td>${{ number_format($detalle->precio_venta, 2) }}</td>
+                                <td>${{ number_format($detalle->precio, 2) }}</td>
                                 <td>${{ number_format($detalle->subtotal, 2) }}</td>
-                                <td>{{ number_format($ivaPorcentaje, 2) }}%</td>
-                                <td>{{ number_format($descuentoPorcentaje, 2) }}%</td>
+                                <td>${{ number_format($ivaPorcentaje, 2) }}</td>
+                                <td>${{ number_format($descuentoPorcentaje, 2) }}</td>
                                 <td>${{ number_format($detalle->total, 2) }}</td>
                             </tr>
                         @endforeach
