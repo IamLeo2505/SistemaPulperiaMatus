@@ -4,32 +4,40 @@ namespace App\Livewire\Ventas;
 
 use Livewire\Component;
 use App\Models\Venta;
+use App\Models\Producto;
 
 class Facturacion extends Component
 {
     public $ventasFiltradas = [];
-    public $mostrarConfirmacion = false;
-    public $ventaAEliminar = null;
-
-    protected $listeners = ['filtroActualizado' => 'actualizarFiltro'];
     public $termino = '';
     public $filtro = 'nventa';
 
-    public $ventas, $nventa, $fecha, $subtotal, $iva, $descuento, $total, $venta_id;
-    public $modalAbierto = false;
-    public $modoEdicion = false;
+    protected $listeners = ['filtroActualizado' => 'actualizarFiltro'];
 
     public function propiedadesVentas()
     {
         $campo = $this->filtro;
         $termino = '%' . $this->termino . '%';
 
-        return Venta::where($campo, 'like', $termino)->get();
+        $query = Venta::with(['cliente', 'empleado', 'detalles.producto']);
+
+        if ($this->termino) {
+            if (in_array($campo, ['nventa', 'fecha'])) {
+                $query->where($campo, 'like', $termino);
+            } elseif ($campo === 'cliente') {
+                $query->whereHas('cliente', function ($q) use ($termino) {
+                    $q->where('nombreCliente', 'like', $termino)
+                      ->orWhere('apellidoCliente', 'like', $termino);
+                });
+            }
+        }
+
+        return $query->orderByDesc('id')->get();
     }
 
     public function mount()
     {
-        $this->ventasFiltradas = Venta::with('cliente')->get();
+        $this->ventasFiltradas = Venta::with(['cliente', 'empleado', 'detalles.producto'])->get();
     }
 
     public function actualizarFiltro($data)
@@ -46,87 +54,30 @@ class Facturacion extends Component
         ]);
     }
 
-    public function abrirModal()
-    {
-        $this->resetCampos();
-        $this->modoEdicion = false;
-        $this->modalAbierto = true;
-    }
-
-    public function cerrarModal()
-    {
-        $this->modalAbierto = false;
-    }
-
-    public function resetCampos()
-    {
-        $this->reset(['nventa', 'fecha', 'subtotal', 'iva', 'descuento', 'total']);
-        $this->modoEdicion = false;
-    }
-
-    public function guardarVenta()
-    {
-        $this->validate([
-            'nventa' => 'required|string',
-            'fecha' => 'required|date',
-            'subtotal' => 'required|numeric',
-            'iva' => 'required|numeric',
-            'descuento' => 'required|numeric',
-            'total' => 'required|numeric',
-        ]);
-
-        Venta::create([
-            'nventa' => $this->nventa,
-            'fecha' => $this->fecha,
-            'subtotal' => $this->subtotal,
-            'iva' => $this->iva,
-            'descuento' => $this->descuento,
-            'total' => $this->total,
-        ]);
-
-        session()->flash('mensaje', 'Venta creada correctamente.');
-        $this->cerrarModal();
-        $this->resetCampos();
-        $this->dispatch('ventaActualizada');
-    }
-
-    public function actualizarVenta()
-    {
-        $this->validate([
-            'nventa' => 'required|string',
-            'fecha' => 'required|date',
-            'subtotal' => 'required|numeric',
-            'iva' => 'required|numeric',
-            'descuento' => 'required|numeric',
-            'total' => 'required|numeric',
-        ]);
-
-        $venta = Venta::find($this->venta_id);
-        $venta->update([
-            'nventa' => $this->nventa,
-            'fecha' => $this->fecha,
-            'subtotal' => $this->subtotal,
-            'iva' => $this->iva,
-            'descuento' => $this->descuento,
-            'total' => $this->total,
-        ]);
-
-        session()->flash('mensaje', 'Venta actualizada correctamente.');
-        $this->resetCampos();
-        $this->cerrarModal();
-        $this->dispatch('ventaActualizada');
-    }
-
     public function eliminar($id)
     {
-        $venta = Venta::findOrFail($id);
+        try {
+            $venta = Venta::with('detalles')->findOrFail($id);
 
-        // Si tiene detalles relacionados
-        $venta->detalles()->delete();
+            // Restaurar el stock de los productos
+            foreach ($venta->detalles as $detalle) {
+                $producto = Producto::find($detalle->producto_id);
+                if ($producto) {
+                    $producto->increment('cantidadstock', $detalle->cantidad);
+                }
+            }
 
-        $venta->delete();
+            // Eliminar los detalles de la venta
+            $venta->detalles()->delete();
 
-        session()->flash('mensaje', 'Venta eliminada correctamente.');
-        $this->ventasFiltradas = Venta::with('cliente')->get();
+            // Eliminar la venta
+            $venta->delete();
+
+            session()->flash('mensaje', 'Venta eliminada correctamente.');
+            $this->ventasFiltradas = $this->propiedadesVentas();
+            $this->dispatch('ventaActualizada');
+        } catch (\Exception $e) {
+            session()->flash('error', 'Error al eliminar la venta: ' . $e->getMessage());
+        }
     }
 }

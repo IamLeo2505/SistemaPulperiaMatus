@@ -12,47 +12,52 @@ class VentasSeeder extends Seeder
     {
         //Ventas fijas
         Venta::create([
-            'nventa' => '1',
-            'subtotal' => 492,
+            'nventa' => 1,
+            'subtotal' => 543,
             'descuento' => 45.9,
-            'iva' => 70.2,
-            'total' => 516.3,
+            'iva' => 74.565,
+            'total' => 571.665,
             'fecha' => now(),
             'empleado_id' => 1,
-            'cliente_id' => 1
+            'cliente_id' => 1,
+            'usuario_id' => 1
         ]);
 
         Venta::create([
             'nventa'=> 2,
-            'subtotal'=> 260,
-            'descuento'=> 22,
-            'iva'=> 35.7,
-            'total'=> 273.7,
+            'subtotal'=> 515,
+            'descuento'=> 49,
+            'iva'=> 69.9,
+            'total'=> 535.9,
             'fecha'=> now(),
             'empleado_id'=> 1,
-            'cliente_id'=> 2
+            'cliente_id'=> 2,
+            'usuario_id' => 1
         ]);
 
         Venta::create([
             'nventa'=> 3,
-            'subtotal'=> 505.00,
-            'descuento'=> 42.50,
-            'iva'=> 69.37,
-            'total'=> 531.87,
+            'subtotal'=> 532,
+            'descuento'=> 37,
+            'iva'=> 74.25,
+            'total'=> 569.25
+            ,
             'fecha'=> now(),
             'empleado_id'=> 1,
-            'cliente_id'=> 3
+            'cliente_id'=> 3,
+            'usuario_id' => 1
         ]);
 
         Venta::create([
             'nventa'=> 4,
-            'subtotal'=> 420.00,
+            'subtotal'=> 598.00,
             'descuento'=> 35.00,
-            'iva'=> 57.75,
-            'total'=> 442.75,
+            'iva'=> 84.45,
+            'total'=> 647.45,
             'fecha'=> now(),
             'empleado_id'=> 1,
-            'cliente_id'=> 4
+            'cliente_id'=> 4,
+            'usuario_id' => 1
         ]);
 
         Venta::create([
@@ -63,7 +68,8 @@ class VentasSeeder extends Seeder
             'total'=> 680.23,
             'fecha'=> now(),
             'empleado_id'=> 1,
-            'cliente_id'=> 5
+            'cliente_id'=> 5,
+            'usuario_id' => 1
         ]);
 
         /*

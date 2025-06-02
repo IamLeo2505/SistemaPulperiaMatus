@@ -13,6 +13,7 @@ class CategoriaSeeder extends Seeder
         //Categorias fijas
         Categoria::create(['nombre_categoria' => 'Bebidas']);
         Categoria::create(['nombre_categoria' => 'Lácteos']);
+        Categoria::create(['nombre_categoria' => 'Galletas']);
 
         /*
         *   Categorias aleatorias

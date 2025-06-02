@@ -35,7 +35,7 @@ class RegistrarVentas extends Component
     public $iva = 15;
     public $descuento = 0;
     public $total = 0;
-
+    
     public function mount()
     {
         $this->fecha = Carbon::now()->toDateString();
@@ -60,10 +60,11 @@ class RegistrarVentas extends Component
         }
 
         $subtotal = $precio * $cantidad;
-        $ivaMonto = $subtotal * ($this->iva / 100);
         $descuentoMonto = $subtotal * ($this->descuento / 100);
+        $subtotalDescuento = ($subtotal - $descuentoMonto);
+        $ivaMonto = $subtotalDescuento * ($this->iva / 100);
 
-        $total = $subtotal + $ivaMonto - $descuentoMonto;
+        $total = $subtotalDescuento + $ivaMonto;
 
         $this->detalle[] = [
             'producto_id' => $producto->id,
@@ -107,11 +108,17 @@ class RegistrarVentas extends Component
 
     public function calcularTotales()
     {
+        /*$subtotal = $precio * $cantidad;
+        $descuentoMonto = $subtotal * ($this->descuento / 100);
+        $subtotalDescuento = ($subtotal - $descuentoMonto);
+        $ivaMonto = $subtotalDescuento * ($this->iva / 100);*/
+
         $this->subtotal = collect($this->detalle)->sum('subtotal');
 
-        $ivaCalculado = $this->subtotal * ($this->iva / 100);
         $descuentoCalculado = $this->subtotal * ($this->descuento / 100);
-        $this->total = $this->subtotal + $ivaCalculado - $descuentoCalculado;
+        $subtotalDescuento = $this->subtotal - $descuentoCalculado;
+        $ivaCalculado = $subtotalDescuento * ($this->iva / 100);
+        $this->total = $subtotalDescuento + $ivaCalculado;
     }
 
     public function updatedIva()
@@ -142,7 +149,7 @@ class RegistrarVentas extends Component
         $this->precio = 0;
     }
 
-    public function guardarVenta()
+    public function guardarVenta($redirect = false)
     {
         $this->validate([
             'fecha' => 'required|date',
@@ -170,6 +177,10 @@ class RegistrarVentas extends Component
         try {
             $user = Auth::user();
 
+            if (!$user->empleado) {
+                throw new \Exception('El usuario no tiene un empleado asociado.');
+            }
+
             $venta = Venta::create([
                 'fecha' => $this->fecha,
                 'nventa' => $this->nventa,
@@ -179,6 +190,7 @@ class RegistrarVentas extends Component
                 'total' => $this->total,
                 'empleado_id' => $user->empleado->id ?? null,
                 'cliente_id' => $this->cliente_id,
+                'usuario_id' => $user->id,
             ]);
 
             \Log::info('Venta creada correctamente: ', ['id' => $venta->id]);
@@ -203,17 +215,28 @@ class RegistrarVentas extends Component
 
             session()->flash('success', '¡Venta registrada exitosamente y stock actualizado!');
             $this->inicializarFormulario();
+
+            if ($redirect) {
+                return redirect()->route('facturacion');
+            }
         } catch (\Exception $e) {
             session()->flash('error', 'Ocurrió un error al registrar la venta: ' . $e->getMessage());
             \Log::error('Error al guardar venta: ' . $e->getMessage());
             dd($e);
+
         }
+    }
+
+    public function guardarYReiniciar()
+    {
+        $this->guardarVenta(false);
+        $this->dispatch('refreshComponent');
     }
 
     public function inicializarFormulario()
     {
         $this->fecha = Carbon::now()->toDateString();
-        $this->nventa = Venta::max('id') + 1;
+        $this->nventa = Venta::max('id');
         $this->cliente_id = null;
         $this->detalle = [];
         $this->subtotal = 0;

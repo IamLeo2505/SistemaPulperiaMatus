@@ -11,7 +11,7 @@
 
         <livewire:clientes.tabla-clientes :clientes="$clientes" />
 
-        <button wire:click="abrirModal" class="fixed right-10 bottom-18 bg-blue-600 text-white px-4 py-2 rounded-2xl z-10">
+        <button wire:click="abrirModal" class="bg-[#004173] right-10 bottom-18 bg-blue-600 text-white px-4 py-2 rounded-2xl z-10">
             Agregar cliente
         </button>
     </div>

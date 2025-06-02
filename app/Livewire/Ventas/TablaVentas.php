@@ -35,11 +35,13 @@ class TablaVentas extends Component
                     $query->where($this->searchField, 'like', '%' . $this->searchTerm . '%');
                 } elseif ($this->searchField === 'cliente') {
                     $query->whereHas('cliente', function ($q) {
-                        $q->where('nombreCliente', 'like', '%' . $this->searchTerm . '%');
+                        $q->where('nombreCliente', 'like', '%' . $this->searchTerm . '%')
+                          ->orWhere('apellidoCliente', 'like', '%' . $this->searchTerm . '%');
                     });
                 } elseif ($this->searchField === 'empleado') {
                     $query->whereHas('empleado', function ($q) {
-                        $q->where('nombreEmpleado', 'like', '%' . $this->searchTerm . '%');
+                        $q->where('nombreEmpleado', 'like', '%' . $this->searchTerm . '%')
+                          ->orWhere('apellidoEmpleado', 'like', '%' . $this->searchTerm . '%');
                     });
                 }
             })
@@ -79,6 +81,7 @@ class TablaVentas extends Component
     {
         $this->reset(['idVentaAEliminar', 'mostrarConfirmacion']);
     }
+
     public function eliminarVenta()
     {
         if ($this->idVentaAEliminar) {
@@ -101,6 +104,7 @@ class TablaVentas extends Component
 
                 $this->reset(['idVentaAEliminar', 'mostrarConfirmacion']);
                 session()->flash('message', 'Venta eliminada correctamente.');
+                $this->dispatch('ventaActualizada');
             } catch (\Exception $e) {
                 session()->flash('error', 'Error al eliminar la venta: ' . $e->getMessage());
                 Log::error('Error al eliminar venta: ', ['error' => $e->getMessage()]);

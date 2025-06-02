@@ -25,14 +25,14 @@
                         </select>
                     </div>
                     <div>
-                        <button type="button" class="bg-[#004173] text-white rounded-xl px-4 py-2 text-sm hover:bg-[#005999]">
+                        <a href="{{ route('clientes') }}" class="bg-[#004173] text-white rounded-xl px-4 py-2 text-sm hover:bg-[#005999]">
                             Agregar Nuevo Cliente
-                        </button>
+                        </a>
                     </div>
                 </div>
 
                 <div class="flex justify-end gap-4 mt-4">
-                    <button type="button" wire:click="inicializarFormulario" class="bg-gray-500 text-white rounded-xl px-4 py-2 text-sm hover:bg-gray-700">
+                    <button type="button" wire:click="guardarYReiniciar" class="bg-gray-500 text-white rounded-xl px-4 py-2 text-sm hover:bg-gray-700">
                         Nueva Venta
                     </button>
                 </div>
@@ -175,7 +175,7 @@
                 </div>
 
                 <div class="flex justify-end mt-4">
-                    <button wire:click="guardarVenta" class="bg-green-600 text-white px-4 py-2 rounded-xl hover:bg-green-800 text-sm">Finalizar Venta</button>
+                    <button wire:click="guardarVenta(true)" class="bg-green-600 text-white px-4 py-2 rounded-xl hover:bg-green-800 text-sm">Finalizar Venta</button>
                 </div>
             </div>
         </div>

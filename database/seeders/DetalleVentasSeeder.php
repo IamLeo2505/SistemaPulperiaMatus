@@ -13,10 +13,10 @@ class DetalleVentasSeeder extends Seeder
         // Detalles de venta fijos
         DetalleVenta::create([
             'cantidad' => 2,
-            'precio' => 1.50,
+            'precio' => 27,
             'descuento' => 0,
-            'subtotal' => 3,
-            'total' => 3.45,
+            'subtotal' => 54,
+            'total' => 62.1,
             'venta_id' => 1,
             'producto_id' => 1
         ]);
@@ -74,10 +74,10 @@ class DetalleVentasSeeder extends Seeder
 
         DetalleVenta::Create([
             'cantidad'=> 10,
-            'precio'=> 1.50,
-            'descuento'=> 0,
-            'subtotal'=> 15,
-            'total'=> 17.25,
+            'precio'=> 27,
+            'descuento'=> 10,
+            'subtotal'=> 270,
+            'total'=> 279.45,
             'venta_id'=> 2,
             'producto_id'=> 1
         ]);
@@ -112,14 +112,14 @@ class DetalleVentasSeeder extends Seeder
             'producto_id'=> 5
         ]);
 
-        //////////////////////
+    //3
 
 DetalleVenta::create([
     'cantidad'=> 1,
-    'precio'=> 1.50,
-    'subtotal'=> 1.50,
+    'precio'=> 27,
+    'subtotal'=> 27,
     'descuento'=> 0,
-    'total'=> 1.73,
+    'total'=> 31.05,
     'venta_id'=> 3,
     'producto_id'=> 1
 ]);
@@ -164,6 +164,7 @@ DetalleVenta::create([
     'producto_id'=> 6
 ]);
 
+//4
 DetalleVenta::create([
     'cantidad'=> 10,
     'precio'=> 35.00,
@@ -176,10 +177,10 @@ DetalleVenta::create([
 
 DetalleVenta::create([
     'cantidad'=> 1,
-    'precio'=> 1.50,
-    'subtotal'=> 1.50,
+    'precio'=> 27,
+    'subtotal'=> 27,
     'descuento'=> 0,
-    'total'=> 1.73,
+    'total'=> 31.05,
     'venta_id'=> 4,
     'producto_id'=> 1
 ]);
@@ -196,24 +197,25 @@ DetalleVenta::create([
 
 DetalleVenta::create([
     'cantidad'=> 8,
-    'precio'=> 5.00,
+    'precio'=> 25.00,
     'subtotal'=> 40.00,
     'descuento'=> 0,
     'total'=> 46.00,
     'venta_id'=> 4,
-    'producto_id'=> 6
+    'producto_id'=> 3
 ]);
 
 DetalleVenta::create([
     'cantidad'=> 2,
-    'precio'=> 1.50,
-    'subtotal'=> 3.00,
+    'precio'=> 8.00,
+    'subtotal'=> 54.00,
     'descuento'=> 0,
-    'total'=> 3.45,
+    'total'=> 62.1,
     'venta_id'=> 4,
-    'producto_id'=> 1
+    'producto_id'=> 2
 ]);
 
+//5
 DetalleVenta::create([
     'cantidad'=> 10,
     'precio'=> 25.00,
@@ -236,10 +238,10 @@ DetalleVenta::create([
 
 DetalleVenta::create([
     'cantidad'=> 1,
-    'precio'=> 1.50,
-    'subtotal'=> 1.50,
+    'precio'=> 27,
+    'subtotal'=> 27,
     'descuento'=> 0,
-    'total'=> 1.73,
+    'total'=> 31.05,
     'venta_id'=> 5,
     'producto_id'=> 1
 ]);
@@ -265,7 +267,7 @@ DetalleVenta::create([
 ]);
 
         /*'producto_id' => 1
-        'precio' => 1.50*/
+        'precio' => 27*/
         /*'producto_id' => 2
         'precio' => 8.00,*/
         /*'producto_id' => 3

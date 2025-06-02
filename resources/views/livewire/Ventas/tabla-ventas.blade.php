@@ -91,28 +91,22 @@
                         <tr>
                             <th>Producto</th>
                             <th>Cantidad</th>
-                            <th>Precio Venta</th>
+                            <th>Precio</th>
                             <th>Subtotal</th>
-                            <th>IVA</th>
-                            <th>Descuento</th>
+                            <th>IVA ($)</th>
+                            <th>Descuento ($)</th>
                             <th>Total</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @php
-                            $subtotalMaestro = $ventaSeleccionada->subtotal > 0 ? $ventaSeleccionada->subtotal : 1;
-                            $ivaPorcentaje = ($ventaSeleccionada->iva / $subtotalMaestro) * 100;
-                            $descuentoPorcentaje = ($ventaSeleccionada->descuento / $subtotalMaestro) * 100;
-                        @endphp
-
                         @foreach ($ventaSeleccionada->detalles as $index => $detalle)
                             <tr class="{{ $index % 2 === 0 ? 'bg-gray-100' : 'bg-white' }} text-gray-800">
                                 <td>{{ $detalle->producto->nombreProducto ?? 'Producto desconocido' }}</td>
                                 <td>{{ $detalle->cantidad }}</td>
                                 <td>${{ number_format($detalle->precio, 2) }}</td>
                                 <td>${{ number_format($detalle->subtotal, 2) }}</td>
-                                <td>${{ number_format($ivaPorcentaje, 2) }}</td>
-                                <td>${{ number_format($descuentoPorcentaje, 2) }}</td>
+                                <td>${{ number_format($detalle->total - ($detalle->subtotal - (($detalle->descuento * $detalle->subtotal)/100)), 2) }}</td>
+                                <td>${{ number_format(($detalle->descuento * $detalle->subtotal)/100, 2) }}</td>
                                 <td>${{ number_format($detalle->total, 2) }}</td>
                             </tr>
                         @endforeach

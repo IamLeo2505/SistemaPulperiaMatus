@@ -16,6 +16,9 @@ class MarcasSeeder extends Seeder
         Marca::firstOrCreate(['nombreMarca' => 'Pepsi']);
         Marca::firstOrCreate(['nombreMarca' => 'Unilever']);
         Marca::firstOrCreate(['nombreMarca' => 'Colgate-Palmolive']);
+        Marca::firstOrCreate(['nombreMarca' => 'Fanta']);
+        Marca::firstOrCreate(['nombreMarca' => 'Aqua Fina']);
+        Marca::firstOrCreate(['nombreMarca' => 'Pozuelo']);
                 
         // Marcas aleatorias
         Marca::factory()->count(10)->create();
