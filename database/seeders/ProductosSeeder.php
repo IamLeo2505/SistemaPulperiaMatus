@@ -25,7 +25,7 @@ class ProductosSeeder extends Seeder
         ]);
 
         Producto::create([
-            'image_path' => 'productos/agua.jpg',
+            'image_path' => 'productos/agua.png',
             'nombreProducto' => 'Aqua Fina 360ml',
             'descripcion' => 'Agua Potable',
             'codigo_barras' => '987654321',
@@ -38,7 +38,7 @@ class ProductosSeeder extends Seeder
         ]);
         
         Producto::create([
-            'image_path' => 'productos/cocacola.jpg',
+            'image_path' => 'productos/pepsi1l.png',
             'nombreProducto' => 'Pepsi 1L',
             'descripcion' => 'Refresco',
             'codigo_barras' => '1928374655',
@@ -51,7 +51,7 @@ class ProductosSeeder extends Seeder
         ]);
 
         Producto::create([
-            'image_path' => 'productos/cocacola.jpg',
+            'image_path' => 'productos/pepsi360ml.png',
             'nombreProducto' => 'Pepsi 360ml',
             'descripcion' => 'Refresco',
             'codigo_barras' => '5546372819',
@@ -64,7 +64,7 @@ class ProductosSeeder extends Seeder
         ]);
 
         Producto::create([
-            'image_path' => 'productos/cocacola.jpg',
+            'image_path' => 'productos/fantanaranja2l.png',
             'nombreProducto' => 'Fanta Naranja 2L',
             'descripcion' => 'Refresco',
             'codigo_barras' => '123456789',
@@ -77,7 +77,7 @@ class ProductosSeeder extends Seeder
         ]);
 
         Producto::create([
-            'image_path' => 'productos/cocacola.jpg',
+            'image_path' => 'productos/galletacremapozuelo.png',
             'nombreProducto' => 'Galleta CREMA',
             'descripcion' => 'Paquete de Galleta CREMA de Pozuelo con 4 unidades de galleta',
             'codigo_barras' => '1728394655',
