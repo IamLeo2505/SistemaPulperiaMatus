@@ -80,9 +80,65 @@
                     @error('user') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                 </div>
                 <div class="mb-4">
-                    <label for="password" class="block text-sm font-medium text-gray-700">Contraseña</label>
-                    <input wire:model="password" type="password" id="password" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+                    @if ($showPassword)
+                        <div>
+                        <label for="password" class="block text-sm font-medium text-gray-700">Contraseña</label>
+                        <input wire:model="password" type="text" id="password" class="mt-1 block w-full border border-gray-300 rounded-md p-2"/>
+                        <button type="button"
+                                    wire:click="$toggle('showPassword')"
+                                    class="text-black opacity-60 hover:opacity-100 transition duration-200">
+
+                            @if (!$showPassword)
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
+                                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-2.075 0-4.005-.676-5.542-1.823" />
+                                </svg>
+                            @else
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
+                                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.27-2.944-9.544-7a9.956 9.956 0 011.419-2.645M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M3 3l18 18" />
+                                </svg>
+                            @endif
+                        </button>
+                    </div>
+                    @else
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-700">Contraseña</label>
+                        <input wire:model="password" type="password" id="password" class="mt-1 block w-full border border-gray-300 rounded-md p-2"/>
+                        <button type="button"
+                                    wire:click="$toggle('showPassword')"
+                                    class="text-black opacity-60 hover:opacity-100 transition duration-200">
+
+                            @if (!$showPassword)
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
+                                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-2.075 0-4.005-.676-5.542-1.823" />
+                                </svg>
+                            @else
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
+                                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.27-2.944-9.544-7a9.956 9.956 0 011.419-2.645M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M3 3l18 18" />
+                                </svg>
+                            @endif
+                        </button>
+                    </div>
+                    @endif
+
                     @error('password') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                    
+                    
                 </div>
                 <div class="mb-4">
                     <label for="correoEmpleado" class="block text-sm font-medium text-gray-700">Correo Electrónico</label>

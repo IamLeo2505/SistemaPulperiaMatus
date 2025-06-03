@@ -31,12 +31,8 @@ class Mantenimiento extends Component
             // Obtener el nombre de la base de datos
             $database = env('DB_DATABASE');
 
-            // Validar que la base de datos no sea null
-            if (empty($database)) {
-                throw new \Exception('Falta DB_DATABASE en el archivo .env.');
-            }
-
             // Ejecutar el comando de backup solo de la base de datos
+            // Probar el comando  "php artisan backup:run --only-db" en la termianl para probar la copia de seguridad de forma manual
             Artisan::call('backup:run', ['--only-db' => true]);
             Log::info('Backup command executed. Checking files...');
 
@@ -89,9 +85,9 @@ class Mantenimiento extends Component
             config(['mail.default' => 'log']);
 
             // Obtener configuración de la base de datos
-            $database = env('DB_DATABASE');
-            $username = env('DB_USERNAME');
-            $password = env('DB_PASSWORD');
+            $database = env('MatusDB');
+            $username = env('root');
+            $password = env('');
             $host = env('DB_HOST', 'localhost');
             $port = env('DB_PORT', 3306);
 

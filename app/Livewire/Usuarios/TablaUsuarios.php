@@ -20,6 +20,7 @@ class TablaUsuarios extends Component
     public $user, $password, $correoEmpleado, $image_path_Usuarios, $idUsuarioEditar;
     public $searchTerm = '';
     public $searchField = 'user';
+    public bool $showPassword = false;
 
     protected $listeners = [
         'usuarioActualizado' => '$refresh',
@@ -98,7 +99,7 @@ class TablaUsuarios extends Component
     {
         $this->validate([
             'user' => 'required|string|max:45|unique:usuarios,user,' . $this->idUsuarioEditar,
-            'password' => 'required|nullable|string|min:6|max:50',
+            'password' => 'required|string|min:6|max:50',
             'correoEmpleado' => 'required|exists:empleados,correoEmpleado',
             'image_path_Usuarios' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
