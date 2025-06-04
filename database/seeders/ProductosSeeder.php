@@ -12,83 +12,131 @@ class ProductosSeeder extends Seeder
     {
         // Productos fijos
         Producto::create([
-            'image_path' => 'productos/cocacola.jpg',
-            'nombreProducto' => 'Coca Cola 1L',
+            'image_path' => 'n/a',
+            'nombreProducto' => 'Coca Cola 3L',
             'descripcion' => 'Refresco',
             'codigo_barras' => '123456789',
-            'cantidadstock' => 50,
+            'cantidadstock' => 10,
             'fechavencimiento' => now()->addMonths(6),
-            'precio_producto' => 27,
+            'precio_producto' => 75,
             'unidad_medida_id' => 1,
-            'categoria_id' => 1,
+            'categoria_id' => 19,
             'marca_id' => 2
         ]);
 
         Producto::create([
-            'image_path' => 'productos/agua.png',
-            'nombreProducto' => 'Aqua Fina 360ml',
-            'descripcion' => 'Agua Potable',
+            'image_path' => 'n/a',
+            'nombreProducto' => 'Huevo',
+            'descripcion' => 'n/a',
             'codigo_barras' => '987654321',
-            'cantidadstock' => 50,
+            'cantidadstock' => 300,
             'fechavencimiento' => now()->addMonths(6),
-            'precio_producto' => 8,
-            'unidad_medida_id' => 1,
-            'categoria_id' => 1,
-            'marca_id' => 7
+            'precio_producto' => 6,
+            'unidad_medida_id' => 2,
+            'categoria_id' => 22,
+            'marca_id' => 3
         ]);
         
         Producto::create([
-            'image_path' => 'productos/pepsi1l.png',
-            'nombreProducto' => 'Pepsi 1L',
-            'descripcion' => 'Refresco',
+            'image_path' => 'Oreo.jpg',
+            'nombreProducto' => 'Oreo',
+            'descripcion' => 'Galleta',
             'codigo_barras' => '1928374655',
             'cantidadstock' => 50,
             'fechavencimiento' => now()->addMonths(6),
-            'precio_producto' => 25,
-            'unidad_medida_id' => 1,
-            'categoria_id' => 1,
-            'marca_id' => 3
+            'precio_producto' => 10,
+            'unidad_medida_id' => 2,
+            'categoria_id' => 20,
+            'marca_id' => 9
         ]);
 
         Producto::create([
             'image_path' => 'productos/pepsi360ml.png',
-            'nombreProducto' => 'Pepsi 360ml',
-            'descripcion' => 'Refresco',
+            'nombreProducto' => 'Avena',
+            'descripcion' => 'Avena granulada',
             'codigo_barras' => '5546372819',
-            'cantidadstock' => 50,
+            'cantidadstock' => 20,
             'fechavencimiento' => now()->addMonths(6),
-            'precio_producto' => 15,
-            'unidad_medida_id' => 1,
-            'categoria_id' => 1,
-            'marca_id' => 3
+            'precio_producto' => 37,
+            'unidad_medida_id' => 3,
+            'categoria_id' => 9,
+            'marca_id' => 10
         ]);
 
         Producto::create([
-            'image_path' => 'productos/fantanaranja2l.png',
-            'nombreProducto' => 'Fanta Naranja 2L',
-            'descripcion' => 'Refresco',
+            'image_path' => 'LecheEskimo.jpg',
+            'nombreProducto' => 'Leche Eskimo ',
+            'descripcion' => 'Leche',
             'codigo_barras' => '123456789',
-            'cantidadstock' => 50,
+            'cantidadstock' => 25,
             'fechavencimiento' => now()->addMonths(6),
-            'precio_producto' => 27,
+            'precio_producto' => 44,
             'unidad_medida_id' => 1,
-            'categoria_id' => 1,
-            'marca_id' => 6
+            'categoria_id' => 2,
+            'marca_id' => 11
         ]);
 
         Producto::create([
-            'image_path' => 'productos/galletacremapozuelo.png',
-            'nombreProducto' => 'Galleta CREMA',
-            'descripcion' => 'Paquete de Galleta CREMA de Pozuelo con 4 unidades de galleta',
+            'image_path' => 'Maruchan.jpg',
+            'nombreProducto' => 'Maruchan Vaso',
+            'descripcion' => 'Ramen instantáneo',
             'codigo_barras' => '1728394655',
             'cantidadstock' => 50,
             'fechavencimiento' => now()->addMonths(6),
-            'precio_producto' => 5,
+            'precio_producto' => 40,
             'unidad_medida_id' => 2,
-            'categoria_id' => 3,
-            'marca_id' => 8
+            'categoria_id' => 4,
+            'marca_id' => 12
         ]);
-        // Productos aleatorios
-        Producto::factory()->count(10)->create();
+        Producto::create([
+            'image_path' => 'Raptor.jpg',
+            'nombreProducto' => 'Raptor 600ml',
+            'descripcion' => 'Bebida energizante',
+            'codigo_barras' => '984648654',
+            'cantidadstock' => 20,
+            'fechavencimiento' => now()->addMonths(6),
+            'precio_producto' => 36,
+            'unidad_medida_id' => 2,
+            'categoria_id' => 1,
+            'marca_id' => 22
+        ]);
+        Producto::create([
+            'image_path' => 'AceiteMazola.jpg',
+            'nombreProducto' => 'Aceite Mazola',
+            'descripcion' => 'Aceite de cocina',
+            'codigo_barras' => '88949561',
+            'cantidadstock' => 10,
+            'fechavencimiento' => now()->addMonths(6),
+            'precio_producto' => 86,
+            'unidad_medida_id' => 2,
+            'categoria_id' => 24,
+            'marca_id' => 20
+        ]);
+        Producto::create([
+            'image_path' => 'KotexNocturna.jpg',
+            'nombreProducto' => 'Kotex Nocturna',
+            'descripcion' => 'Toalla Sanitaria',
+            'codigo_barras' => '1459846165',
+            'cantidadstock' => 20,
+            'fechavencimiento' => now()->addMonths(12),
+            'precio_producto' => 62,
+            'unidad_medida_id' => 2,
+            'categoria_id' => 7,
+            'marca_id' => 21
+        ]);
+        Producto::create([
+            'image_path' => 'azucar.jpg',
+            'nombreProducto' => 'Azúcar',
+            'descripcion' => 'Edulcorante utilizado para endulzar los alimentos',
+            'codigo_barras' => '12165498',
+            'cantidadstock' => 1,
+            'fechavencimiento' => now()->addMonths(12),
+            'precio_producto' => 17,
+            'unidad_medida_id' => 3,
+            'categoria_id' => 9,
+            'marca_id' => 13
+        ]);
+        /* Productos aleatorios
+        Producto::factory()->count(10)->create();*/
     }
 }

@@ -13,6 +13,7 @@ class UnidadMedidaSeeder extends Seeder
         //Unidades de medida fijas
         Unidad_Medida::create(['nombre_unidad' => 'Litros']);
         Unidad_Medida::create(['nombre_unidad' => 'Unidades']);
+        Unidad_Medida::create(['nombre_unidad' => 'Libras']);
 
         /*
         *   Unidades de medida aleatorias

@@ -14,11 +14,30 @@ class ProveedorSeeder extends Seeder
         Proveedor::create([
             'nombreProveedor' => 'Carlos',
             'apellidoProveedor' => 'Lopez',
-            'compañía' => 'Distribuidora Sur',
+            'compañía' => 'Distribuidora Rizo Jarquín',
             'numeroProveedor' => '88881234'
         ]);
+        Proveedor::create([
+            'nombreProveedor' => 'Mario',
+            'apellidoProveedor' => 'Soza',
+            'compañía' => 'Coca-Cola',
+            'numeroProveedor' => '89784557'
+        ]);
+        Proveedor::create([
+            'nombreProveedor' => 'Manuel',
+            'apellidoProveedor' => 'López',
+            'compañía' => 'Bimbo',
+            'numeroProveedor' => '84025484'
+        ]);
 
-        //Proveedores aleatorios
-        Proveedor::factory()->count(10)->create();
+        Proveedor::create([
+            'nombreProveedor' => 'Ángel',
+            'apellidoProveedor' => 'Soto',
+            'compañía' => 'Huevos El Granjero',
+            'numeroProveedor' => '87456545'
+        ]);
+
+        /*Proveedores aleatorios
+        Proveedor::factory()->count(10)->create();*/
     }
 }

@@ -54,17 +54,17 @@
 
     <!-- Botones al lado del buscador -->
     <a href="{{ route('inventario.marcas') }}"
-        class="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition">
+        class="bg-blue-700 text-white px-4 py-2 rounded-full hover:bg-blue-900 transition">
         Ver Marcas
     </a>
 
     <a href="{{ route('inventario') }}"
-        class="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition">
+        class="bg-blue-700 text-white px-4 py-2 rounded-full hover:bg-blue-900 transition">
         Ver Inventario
     </a>
     <button
     wire:click="abrirModalCrear"
-    class="inline-flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition">
+    class="inline-flex items-center gap-2 bg-blue-700 text-white px-4 py-2 rounded-full hover:bg-blue-900 transition">
 
     <!-- Ícono de añadir -->
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
