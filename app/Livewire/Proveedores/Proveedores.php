@@ -10,9 +10,6 @@ class Proveedores extends Component
     
     public $proveedoresFiltrados = [];
 
-    public $mostrarConfirmacion = false;
-    public $proveedorAEliminar = null;
-
     protected $listeners = ['filtroActualizado' => 'actualizarFiltro'];
     public $termino = '';
     public $filtro = 'nombreProveedor';
@@ -35,7 +32,7 @@ class Proveedores extends Component
     }
 
     
-// Método para forzar el refresco del render
+    // Método para forzar el refresco del render
      
 
 
@@ -55,16 +52,16 @@ class Proveedores extends Component
 
 
     public function abrirModal()
-{
-    $this->resetCampos();
-    $this->modoEdicion = false;
-    $this->modalAbierto = true;
-}
+    {
+        $this->resetCampos();
+        $this->modoEdicion = false;
+        $this->modalAbierto = true;
+    }
 
-public function cerrarModal()
-{
-    $this->modalAbierto = false;
-}
+    public function cerrarModal()
+    {
+        $this->modalAbierto = false;
+    }
     
     public function resetCampos()
     {

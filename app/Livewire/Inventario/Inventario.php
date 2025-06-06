@@ -19,11 +19,8 @@ class Inventario extends Component
     public $productoId, $isEditing = false;
     public $abrirModal = false;
     public $idProductoAEliminar = null;
-    public $AgregarStockModal = false;
-    public $productoSeleccionado;
-    public $cantidadAgregar = 1;
     public $fecha_inicio;
-    public $showEliminarModal = false; 
+    public $modalConfirmarEliminacion = false;
 
     public $fecha_fin;
 
@@ -50,7 +47,7 @@ class Inventario extends Component
 
         $productos = $query->with(['unidad_medida', 'categoria', 'marca'])
                             ->orderBy('id', 'ASC') 
-                            ->paginate(6); 
+                            ->paginate(5); 
         return view('livewire.inventario.inventario', [
             'productos' => $productos, 
         ]);
@@ -70,17 +67,15 @@ class Inventario extends Component
 
     public function abrirModalEditar($id)
     {
-        $producto = Producto::findOrFail($id);
+        $productos = Producto::findOrFail($id);
 
-        $this->productoId = $producto->id; 
-        $this->nombreProducto = $producto->nombreProducto;
-        $this->descripcion = $producto->descripcion;
-        $this->marca_id = $producto->marca_id;
-        $this->categoria_id = $producto->categoria_id;
-        $this->precio_producto = $producto->precio_producto; 
-        $this->cantidadstock = $producto->cantidadstock; 
-
-        $this->isEditing = true; 
+        $this->productoId = $productos->id; 
+        $this->nombreProducto = $productos->nombreProducto;
+        $this->descripcion = $productos->descripcion;
+        $this->marca_id = $productos->marca_id;
+        $this->categoria_id = $productos->categoria_id;
+        $this->precio_producto = $productos->precio_producto; 
+        $this->cantidadstock = $productos->cantidadstock; 
         $this->abrirModal = true;
     }
 
@@ -105,27 +100,6 @@ class Inventario extends Component
     public function editProducto($id)
     {
         $this->abrirModalEditar($id);
-    }
-
-    public function OpenAgregarStockModal($productoId)
-    {
-        $this->productoSeleccionado = Producto::find($productoId);
-        $this->cantidadAgregar = 1;
-        $this->AgregarStockModal = true;
-    }
-
-    public function agregarStock()
-    {
-        $this->validate([
-            'cantidadAgregar' => 'required|integer|min:1',
-        ]);
-
-        $this->productoSeleccionado->cantidadstock += $this->cantidadAgregar; 
-        $this->productoSeleccionado->save();
-
-        session()->flash('mensaje', 'Stock actualizado correctamente.'); 
-        $this->AgregarStockModal = false; 
-        $this->dispatch('close-modal'); 
     }
 
     public function saveProducto()
@@ -162,25 +136,22 @@ class Inventario extends Component
         $this->resetCampos();
     }
 
-    public function SolicitarConfirmacion($id)
+    public function confirmarEliminacion($id)
     {
-        $this->idProductoAEliminar = $id;
-        $this->showEliminarModal = true; 
-    }
-
-    public function cancelarEliminacion()
-    {
-        $this->idProductoAEliminar = null;
-        $this->showEliminarModal = false;
+        $this->producto_id = $id;
+        $this->modalConfirmarEliminacion = true; 
     }
 
     public function eliminarProducto()
     {
-        if ($this->idProductoAEliminar) {
-            Producto::find($this->idProductoAEliminar)->delete();
-            session()->flash('mensaje', 'Producto eliminado correctamente.');
-            $this->showEliminarModal = false;
-            $this->idProductoAEliminar = null;
-        }
+       Producto::findOrFail($this->producto_id)->delete();
+        session()->flash('mensaje', 'Producto eliminado exitosamente.');
+        $this->cerrarModal();
+    }
+
+    public function cerrarModal()
+    {
+        $this->reset(['image_path', 'nombreProducto', 'descripcion', 'codigo_barras', 'cantidadstock', 'fecha_vencimiento', 'precio_producto', 'unidad_medida_id', 'marca_id', 'categoria_id', 'producto_id', 'modal', 'modalConfirmarEliminacion']);
+        $this->resetErrorBag();
     }
 }
