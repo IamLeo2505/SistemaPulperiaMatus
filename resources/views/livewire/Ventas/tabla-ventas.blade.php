@@ -29,7 +29,7 @@
                     <td>{{ $venta->fecha ?? 'N/A' }}</td>
                     <td>{{ $venta->cliente->nombreCliente ?? 'N/A' }} {{ $venta->cliente->apellidoCliente ?? 'N/A' }}</td>
                     <td>${{ number_format($venta->subtotal, 2) }}</td>
-                    <td>${{ number_format($venta->total - ($venta->subtotal - (($venta->descuento * $venta->subtotal)/100)), 2) }}</td>
+                    <td>${{ number_format(($venta->iva/100) * ($venta->subtotal - ($venta->descuento * $venta->subtotal)/100), 2) }}</td>
                     <td>${{ number_format(($venta->descuento * $venta->subtotal)/100, 2) }}</td>
                     <td>${{ number_format($venta->total, 2) }}</td>
                     <td class="px-4 py-2">
