@@ -34,6 +34,8 @@ class RegistrarVentas extends Component
     public $subtotal = 0;
     public $iva = 15;
     public $descuento = 0;
+    public $ivatotal=0;
+    public $descuentototal=0;
     public $total = 0;
     
     public function mount()
@@ -114,6 +116,8 @@ class RegistrarVentas extends Component
         $ivaMonto = $subtotalDescuento * ($this->iva / 100);*/
 
         $this->subtotal = collect($this->detalle)->sum('subtotal');
+        $this->ivatotal = collect($this->detalle)->sum('iva');
+        $this->descuentototal = collect($this->detalle)->sum('descuento');
 
         $descuentoCalculado = $this->subtotal * ($this->descuento / 100);
         $subtotalDescuento = $this->subtotal - $descuentoCalculado;
@@ -185,8 +189,8 @@ class RegistrarVentas extends Component
                 'fecha' => $this->fecha,
                 'nventa' => $this->nventa,
                 'subtotal' => $this->subtotal,
-                'iva' => $this->iva,
-                'descuento' => $this->descuento,
+                'iva' => $this->ivatotal,
+                'descuento' => $this->descuentototal,
                 'total' => $this->total,
                 'empleado_id' => $user->empleado->id ?? null,
                 'cliente_id' => $this->cliente_id,
