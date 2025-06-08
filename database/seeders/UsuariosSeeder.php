@@ -18,6 +18,12 @@ class UsuariosSeeder extends Seeder
             'empleado_id' => 1,
             'image_path_Usuarios' => 'profile_images/ft_leo.jpg'
         ]);
+        Usuario::create([
+            'user' => 'LeoMts',
+            'password' => Hash::make('051002'),
+            'empleado_id' => 2,
+            'image_path_Usuarios' => 'profile_images/Leandro.jpg'
+        ]);
 
         /*
         *  Usuarios aleatorios

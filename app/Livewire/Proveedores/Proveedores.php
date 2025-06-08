@@ -7,7 +7,7 @@ use App\Models\Proveedor;
 
 class Proveedores extends Component
 {
-    
+
     public $proveedoresFiltrados = [];
 
     protected $listeners = ['filtroActualizado' => 'actualizarFiltro'];
@@ -44,6 +44,7 @@ class Proveedores extends Component
 
      public function render()
     {
+
         return view('livewire.proveedores.proveedores', [
             'proveedores' => $this->proveedoresFiltrados
         ]);

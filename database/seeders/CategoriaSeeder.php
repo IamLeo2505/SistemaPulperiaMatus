@@ -22,19 +22,20 @@ class CategoriaSeeder extends Seeder
         /*9*/Categoria::create(['nombre_categoria' => 'Abarrotes']);
         /*10*/Categoria::create(['nombre_categoria' => 'Panadería']);
         /*11*/Categoria::create(['nombre_categoria' => 'Condimentos']);
-        Categoria::create(['nombre_categoria' => 'Confitería']);
-        Categoria::create(['nombre_categoria' => 'Alimentos para Mascotas']);
-        Categoria::create(['nombre_categoria' => 'Botanas']);
-        Categoria::create(['nombre_categoria' => 'Carnes y Aves']);
-        Categoria::create(['nombre_categoria' => 'Embutidos']);
-        Categoria::create(['nombre_categoria' => 'Papelería']);
-        Categoria::create(['nombre_categoria' => 'Otros Productos']);
-        Categoria::create(['nombre_categoria' => 'Gaseosas']);
-        Categoria::create(['nombre_categoria' => 'Jugos']);
-        Categoria::create(['nombre_categoria' => 'Snacks']);
-        Categoria::create(['nombre_categoria' => 'Granos Básicos']);
-        Categoria::create(['nombre_categoria' => 'Huevos']);
-        Categoria::create(['nombre_categoria' => 'Aceites y Vinagres']);
+        /*12*/Categoria::create(['nombre_categoria' => 'Confitería']);
+        /*13*/Categoria::create(['nombre_categoria' => 'Alimentos para Mascotas']);
+        /*14*/Categoria::create(['nombre_categoria' => 'Botanas']);
+        /*15*/Categoria::create(['nombre_categoria' => 'Carnes y Aves']);
+        /*16*/Categoria::create(['nombre_categoria' => 'Embutidos']);
+        /*17*/Categoria::create(['nombre_categoria' => 'Papelería']);
+        /*18*/Categoria::create(['nombre_categoria' => 'Otros Productos']);
+        /*19*/Categoria::create(['nombre_categoria' => 'Gaseosas']);
+        /*20*/Categoria::create(['nombre_categoria' => 'Jugos']);
+        /*21*/Categoria::create(['nombre_categoria' => 'Snacks']);
+        /*22*/Categoria::create(['nombre_categoria' => 'Granos Básicos']);
+        /*23*/Categoria::create(['nombre_categoria' => 'Huevos']);
+        /*24*/Categoria::create(['nombre_categoria' => 'Aceites y Vinagres']);
+        /*25*/Categoria::create(['nombre_categoria' => 'Utiles Escolares']);
 
         /*
         *   Categorias aleatorias

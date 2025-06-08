@@ -15,7 +15,7 @@ class MarcasSeeder extends Seeder
         Marca::firstOrCreate(['nombreMarca' => 'Coca Cola Company']);
         Marca::firstOrCreate(['nombreMarca' => 'Huevos El Granjero']);
         Marca::firstOrCreate(['nombreMarca' => 'Unilever']);
-        Marca::firstOrCreate(['nombreMarca' => 'Colgate-Palmolive']);
+        Marca::firstOrCreate(['nombreMarca' => 'Palmolive']);
         Marca::firstOrCreate(['nombreMarca' => 'Fanta']);
         Marca::firstOrCreate(['nombreMarca' => 'Aqua Fina']);
         Marca::firstOrCreate(['nombreMarca' => 'Pozuelo']);
@@ -33,8 +33,26 @@ class MarcasSeeder extends Seeder
         Marca::firstOrCreate(['nombreMarca' => 'Mazola']);
         Marca::firstOrCreate(['nombreMarca' => 'Kotex']);
         Marca::firstOrCreate(['nombreMarca' => 'Raptor']);
+        Marca::firstOrCreate(['nombreMarca' => 'Diana']);
+        Marca::firstOrCreate(['nombreMarca' => 'Delisoy']);
+        Marca::firstOrCreate(['nombreMarca' => 'Bimbo']);
+        Marca::firstOrCreate(['nombreMarca' => 'Bocadeli']);
+        Marca::firstOrCreate(['nombreMarca' => 'Yummies']);
+        Marca::firstOrCreate(['nombreMarca' => 'Delmor']);
+        Marca::firstOrCreate(['nombreMarca' => 'La Sirena']);
+        Marca::firstOrCreate(['nombreMarca' => 'Alpina']);
+        Marca::firstOrCreate(['nombreMarca' => 'Colgate']);
+        Marca::firstOrCreate(['nombreMarca' => 'Pampers']);
+        Marca::firstOrCreate(['nombreMarca' => 'Scribe']);
+        Marca::firstOrCreate(['nombreMarca' => 'Presto']);
+        Marca::firstOrCreate(['nombreMarca' => 'Hi-C']);
+        Marca::firstOrCreate(['nombreMarca' => 'Scott']);
+        Marca::firstOrCreate(['nombreMarca' => 'Gati']);
+        Marca::firstOrCreate(['nombreMarca' => 'Tip-Top']);
+        Marca::firstOrCreate(['nombreMarca' => 'Maseca']);
 
-        // Marcas aleatorias
-        Marca::factory()->count(10)->create();
+
+        /* Marcas aleatorias
+        Marca::factory()->count(10)->create(); */
     }
 }

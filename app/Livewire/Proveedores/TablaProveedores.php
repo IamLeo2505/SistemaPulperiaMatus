@@ -4,14 +4,17 @@ namespace App\Livewire\Proveedores;
 
 use Livewire\Component;
 use App\Models\Proveedor;
+use Livewire\WithPagination;
 
 class TablaProveedores extends Component
 {
+    use WithPagination;
     public $idProveedorAEliminar = null;
     public $mostrarConfirmacion = false;
     public $mostrarModalEditar = false;
     public $nombreProveedor, $apellidoProveedor, $compañía, $numeroProveedor, $idProveedorEditar;
     public $searchTerm = '';
+    protected $paginationTheme = 'tailwind';
     public $searchField = 'nombreProveedor';
 
     protected $listeners = [
@@ -27,13 +30,17 @@ class TablaProveedores extends Component
 
     public function render()
     {
-        $proveedores = Proveedor::query()
-            ->where($this->searchField, 'like', '%' . $this->searchTerm . '%')
-            ->get();
+       $query = Proveedor::query();
 
-        return view('livewire.proveedores.tabla-proveedores', [
-            'proveedores' => $proveedores,
-        ]);
+    if (!empty($this->searchTerm)) {
+        $query->where($this->searchField, 'like', '%' . $this->searchTerm . '%');
+    }
+
+    $proveedores = $query->orderBy('id', 'ASC')->paginate(5);
+
+    return view('livewire.proveedores.tabla-proveedores', [
+        'proveedores' => $proveedores,
+    ]);
     }   
 
 public function abrirModalEditar($id)

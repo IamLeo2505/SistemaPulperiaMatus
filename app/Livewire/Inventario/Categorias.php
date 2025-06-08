@@ -20,7 +20,10 @@ class Categorias extends Component
 
     public function render()
     {
-       
+        $query = Categoria::query();
+
+        $categorias = $query->orderBy('id', 'ASC')
+                            ->paginate(5);
         return view('livewire.inventario.Categoria.categorias', [
             'categorias' => Categoria::latest()->paginate(perPage: 10)
         ]);

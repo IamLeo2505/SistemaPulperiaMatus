@@ -29,7 +29,7 @@
                         <td class="px-4 py-2">
                             <div class="flex items-center gap-10">
                                 <button
-                                    wire:click="abrirModalEditar({{ $proveedor->id }}, '{{ $proveedor->nombreProveedor }}', '{{ $proveedor->apellidoProveedor }}', '{{ $proveedor->compañía }}', '{{ $proveedor->numeroProveedor }}')"
+                                    wire:click="abrirModalEditar({{ $proveedor->id }}   )"
                                     class="text-blue-600 hover:text-blue-800"
                                     title="Editar">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -52,6 +52,9 @@
                 @endforeach
             </tbody>
         </table>
+        <div class="mt-3 px-2 items-center">
+            {{ $proveedores->links() }}
+        </div>
     @endif
     
      <input type="checkbox" id="modal-editar" class="modal-toggle" {{ $mostrarModalEditar ? 'checked' : '' }} />

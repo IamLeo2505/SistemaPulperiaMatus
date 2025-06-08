@@ -136,6 +136,30 @@ class ProductosSeeder extends Seeder
             'categoria_id' => 9,
             'marca_id' => 13
         ]);
+        Producto::create([
+            'image_path' => 'Pegablanca.jpg',
+            'nombreProducto' => 'Pega Blanca',
+            'descripcion' => 'Pegamento escolar',
+            'codigo_barras' => '265941661',
+            'cantidadstock' => 10,
+            'fechavencimiento' => now()->addMonths(8),
+            'precio_producto' => 20,
+            'unidad_medida_id' => 2,
+            'categoria_id' => 25,
+            'marca_id' => 13
+        ]);
+        Producto::create([
+            'image_path' => 'SardinasLaSirena.jpg',
+            'nombreProducto' => 'Sardinas La Sirena',
+            'descripcion' => 'Sardinas enlatadas',
+            'codigo_barras' => '12354697',
+            'cantidadstock' => 10,
+            'fechavencimiento' => now()->addMonths(12),
+            'precio_producto' => 48,
+            'unidad_medida_id' => 2,
+            'categoria_id' => 16,
+            'marca_id' => 18
+        ]);
         /* Productos aleatorios
         Producto::factory()->count(10)->create();*/
     }
