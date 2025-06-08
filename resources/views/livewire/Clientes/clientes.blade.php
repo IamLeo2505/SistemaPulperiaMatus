@@ -3,7 +3,7 @@
     <h1 class="text-black font-bold mb-4">Gestión de Clientes</h1>
 
     @if (session()->has('mensaje'))
-        <div class="bg-blue-200 text-blue-800 p-2 rounded mb-4">{{ session('mensaje') }}</div>
+        <div class="bg-blue-700 p-2 rounded mb-4">{{ session('mensaje') }}</div>
     @endif
 
     <div>
